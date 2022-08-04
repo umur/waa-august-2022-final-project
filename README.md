@@ -31,7 +31,7 @@ Create dashboard pages for students and faculty:
 	* by student id.
 * Auto-complete tags while typing.
 * Faculty can write comments on students.
-	* Only faculty can see the comments.
+	* Only faculty members can see the comments.
 * Students can add their professional job experiences.
 *  Admin can Activate/Deactivate students and faculty.
 * Admin can reset passwords.
@@ -59,6 +59,30 @@ The system will send randomly generated code to the user's email address.
 ---
 * AppliedToTheJob: To the owner of the job advertisement when a student has applied to the job.
 * NewJobPoster: To all students who are interested in job poster's tags get a notification about the job.
+
+#### Extra Features
+---
+You can pass with a Honor Grade by completing all extra features.
+
+To get extra points:
+
+ - All features of the project must be completed.
+ - Prepare a deployment-ready docker image including dummy data and all configurations needed. Your project should run with `docker-compose up` command.
+ - Prepare API documentation with Swagger.
+ - Make sure you use the proper fetch strategies and explain them with comments.
+
+| Feature | Points |
+|---------|--------|
+|<font size="3"> Implement multi-tenant database. Shared database, seperate schema </font> | 1 point |
+|<font size="3">Implement Method Level Security. </font> |1 point|
+|<font size="3">Implement Attribute Based Access Control. Refer to ABAC. </font> |1 point|
+
+
+
+#### ABAC
+---
+Attribute-based control models allow access decisions based not only on the identity, action, and target object but also on contextual information related to a request such as location, ip address, time etc...
+
 
 #### Sample Domain Models
 ---
@@ -113,15 +137,15 @@ active: Boolean
 * PostgreSQL is recommended as a Relational Database system.
 * Populate your database with dummy data using `data.sql`.
 	* Prepare your dummy data for testing and presentation.
-* If necessary, change isolation levels.
 * If necessary, change Fetch mode.
 
 
 #### Submission
 ---
-* Submit a detailed project plan for your daily performance (day/task/time) and submit it with your code.
+* Deadline: 08/13/2022 23:55
+* Submit your project to the Sakai.
+* Provide a detailed project plan for your daily performance (day/task/time).
 * Fork this repository and push your changes.
-* Once you finished your project, send a Pull Request. (Send only one Pull Request once you finish the assignment.)
 * Project will be evaluated based on your code quality. It is possible that I will need to schedule meetings with some students about their source-code.
 
 #### Important Notes
@@ -132,4 +156,3 @@ active: Boolean
     
 * Plagiarism is a very serious thing in all American academic institutions and is guarded against vigilantly by every professor.
  
-
