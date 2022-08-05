@@ -21,7 +21,6 @@ import javax.persistence.*;
         )
 )
 public class Profile {
-
     @Id
     @SequenceGenerator(
             name = "profile_sequence",
@@ -36,15 +35,6 @@ public class Profile {
     private String profileKClockId;
     private String firstName;
     private String lastName;
-    @Column(length = 24)
-    private String password;
-    @Column(
-            name = "email_address",
-            nullable = false
-    )
-    private String email;
     private boolean isDeleted;
     private ProfileType profileType;
-
-
 }
