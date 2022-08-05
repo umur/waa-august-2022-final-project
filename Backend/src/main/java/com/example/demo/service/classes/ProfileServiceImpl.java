@@ -23,8 +23,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void create(ProfileModel profileModel) {
-        Profile profileEntity = new Profile();
-        profileEntity = Mapper.ConvertModelToProfile(profileModel);
+        Profile profileEntity = Mapper.ConvertModelToProfile(profileModel);
         profileRepository.save(profileEntity);
     }
 

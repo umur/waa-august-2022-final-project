@@ -16,8 +16,8 @@ public class ProfileModel {
     private String profileKClockId;
     private String firstName;
     private String lastName;
-    private String password;
-    private String email;
+//    private String password;
+//    private String email;
     private boolean isDeleted;
     private ProfileType profileType;
     private Department department;

@@ -36,5 +36,9 @@ public class Profile {
     private String firstName;
     private String lastName;
     private boolean isDeleted;
+
+    @ManyToOne
+    private Department department;
+
     private ProfileType profileType;
 }
