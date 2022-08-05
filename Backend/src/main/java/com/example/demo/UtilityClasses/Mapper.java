@@ -1,7 +1,5 @@
 package com.example.demo.UtilityClasses;
 
-import com.example.demo.backend.entity.*;
-import com.example.demo.backend.model.*;
 import com.example.demo.entity.*;
 import com.example.demo.model.*;
 
@@ -12,8 +10,8 @@ public final class Mapper {
         profile.setFirstName(profileModel.getFirstName());
         profile.setLastName(profileModel.getLastName());
         profile.setProfileKClockId(profileModel.getProfileKClockId());
-        profile.setPassword(profileModel.getPassword());
-        profile.setEmail(profileModel.getEmail());
+//        profile.setPassword(profileModel.getPassword());
+//        profile.setEmail(profileModel.getEmail());
         profile.setProfileType(profileModel.getProfileType());
         profile.setDeleted(profileModel.isDeleted());
 
@@ -25,8 +23,8 @@ public final class Mapper {
         profileModel.setFirstName(profile.getFirstName());
         profileModel.setLastName(profile.getLastName());
         profileModel.setProfileKClockId(profile.getProfileKClockId());
-        profileModel.setPassword(profile.getPassword());
-        profileModel.setEmail(profile.getEmail());
+//        profileModel.setPassword(profile.getPassword());
+//        profileModel.setEmail(profile.getEmail());
         profileModel.setProfileType(profile.getProfileType());
         profileModel.setDeleted(profile.isDeleted());
         return profileModel;
