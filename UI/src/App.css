@@ -1,9 +1,16 @@
+@import '~antd/dist/antd.css';
+
 .App {
   text-align: center;
 }
 
 .App-logo {
   height: 40vmin;
+  pointer-events: none;
+}
+
+.App-logo2 {
+  height: 10vmin;
   pointer-events: none;
 }
 
@@ -35,4 +42,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.site-button-ghost-wrapper>Button {
+  margin-left: 0px;
+  margin-right: 10px;
+}
+
+.navBar{
+  display: inline-block;
 }
