@@ -33,8 +33,8 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers("/customers*", "/users*")
-                .hasRole("student")
+//                .antMatchers("/customers*", "/users*")
+//                .hasRole("student")
                 .anyRequest()
                 .permitAll();
     }

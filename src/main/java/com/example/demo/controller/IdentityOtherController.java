@@ -4,9 +4,7 @@ import com.example.demo.entity.UserInfo;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.keycloak.representations.IDToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +12,7 @@ import java.security.Principal;
 import java.util.Map;
 
 @RestController
-public class SomeOtherController {
+public class IdentityOtherController {
     @GetMapping(path = "/users")
     public UserInfo getUserInfo() {
 
