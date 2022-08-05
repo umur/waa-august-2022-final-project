@@ -13,13 +13,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(
-        name = "tbl_profile",
-        uniqueConstraints = @UniqueConstraint(
-                name = "emailId_unique",
-                columnNames = "email_address"
-        )
-)
+//@Table(
+//        name = "tbl_profile",
+//        uniqueConstraints = @UniqueConstraint(
+//                name = "emailId_unique",
+//                columnNames = "email_address"
+//        )
+//)
 public class Profile {
     @Id
     @SequenceGenerator(

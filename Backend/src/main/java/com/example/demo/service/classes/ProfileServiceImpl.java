@@ -33,17 +33,17 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.deleteById(id);
     }
 
-    @Override
-    public ProfileModel findByEmail(String email) {
-        Optional<Profile> dataFromDatabase = Optional.ofNullable(profileRepository.findByEmail(email));
-        if(dataFromDatabase.isEmpty()){
-            throw new ObjectNotFoundException("User with this id = " + email +" is Not Found!!!");
-        }
-        ProfileModel profileModel = new ProfileModel();
-        profileModel = Mapper.ConvertProfileToModel(dataFromDatabase.get());
-        return profileModel;
-
-    }
+//    @Override
+//    public ProfileModel findByEmail(String email) {
+//        Optional<Profile> dataFromDatabase = Optional.ofNullable(profileRepository.findByEmail(email));
+//        if(dataFromDatabase.isEmpty()){
+//            throw new ObjectNotFoundException("User with this id = " + email +" is Not Found!!!");
+//        }
+//        ProfileModel profileModel = new ProfileModel();
+//        profileModel = Mapper.ConvertProfileToModel(dataFromDatabase.get());
+//        return profileModel;
+//
+//    }
 
     @Override
     public ProfileModel findById(Long id) {
@@ -81,8 +81,8 @@ public class ProfileServiceImpl implements ProfileService {
         currentProfileValue.setProfileKClockId(newProfileValue.getProfileKClockId());
         currentProfileValue.setFirstName(newProfileValue.getFirstName());
         currentProfileValue.setLastName(newProfileValue.getLastName());
-        currentProfileValue.setPassword(newProfileValue.getPassword());
-        currentProfileValue.setEmail(newProfileValue.getEmail());
+//        currentProfileValue.setPassword(newProfileValue.getPassword());
+//        currentProfileValue.setEmail(newProfileValue.getEmail());
         currentProfileValue.setProfileType(newProfileValue.getProfileType());
         currentProfileValue.setDeleted(newProfileValue.isDeleted());
 
