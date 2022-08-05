@@ -7,7 +7,7 @@ import java.util.List;
 public interface ProfileService {
     void create(ProfileModel profileModel);
     void delete(Long id);
-    ProfileModel findByEmail(String email);
+//    ProfileModel findByEmail(String email);
     ProfileModel findById(Long id);
     List<ProfileModel> findAll();
     void update(ProfileModel profileModel, long id);
