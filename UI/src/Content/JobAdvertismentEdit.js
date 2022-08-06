@@ -1,22 +1,14 @@
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import {
     Button,
-    Checkbox,
-    Col,
     Form,
-    InputNumber,
     Input,
-    Radio,
-    Rate,
-    Row,
     Select,
-    Slider,
-    Switch,
-    Upload,
+    Upload
 } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const { Option } = Select;
 const formItemLayout = {
@@ -42,50 +34,61 @@ const normFile = (e) => {
 
 export default function App() {
 
+    let { id } = useParams();
     let navigate = useNavigate();
 
-    let formData = {
-        tagList: [],
-        fileList: []
-    }
+
+    const [form] = Form.useForm();
+
+    const [tagState, setTagState] = useState([]);
+    const [jobState, setJobState] = useState({});
 
     const tagSelect = (val) => {
-        formData.tagList.push(val);
+        var copy={...jobState};
+        copy.tagList.push(val);
+        setJobState(copy);
     }
 
     const tagDeselect = (val) => {
-        let index = formData.tagList.findIndex(val);
+        var copy={...jobState};
+        let index = copy.tagList.findIndex(val);
         if (index > -1) {
-            formData.tagList.splice(index, 1);
+            copy.tagList.splice(index, 1);
+            setJobState(copy);
         }
     }
 
     const inputChange = (event) => {
         console.log(event);
-        formData[event.target.name] = event.target.value;
-        console.log(formData);
+        var copy={...jobState};
+        copy[event.target.name] = event.target.value;
+        setJobState(copy);
+        console.log(copy);
     }
 
     const addJob = async () => {
-        formData.tagList = formData.tagList.map(d => { return { id: d } });
-        console.log(formData);
-        try{
-            var result = await axios.post('/jobsAdvertisment', formData);
+        var copy={...jobState};
+        copy.tagList = copy.tagList.map(d => { return { id: d } });
+        console.log(copy);
+        try {
+            var result = await axios.put('/jobsAdvertisment/'+id, copy);
+            console.log(result);
             navigate('/');
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
-    
-       
+
+
     }
-    const [tagState, setTagState] = useState([]);
+
+
 
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
     };
+
     const getTags = async () => {
         var result = await axios.get("/tags");
-        console.log(result);
         setTagState(result.data);
     }
 
@@ -95,15 +98,18 @@ export default function App() {
     }
 
     const addFileReponse = (res) => {
-        formData.fileList.push(res.data)
+        var copy={...jobState};
+        copy.fileList.push(res.data)
+        setJobState(copy);
     }
 
     const fileRemoved = (file) => {
 
-
-        var index = formData.fileList.findIndex(elm => elm.uid == file.uid);
+        var copy={...jobState};
+        var index = copy.fileList.findIndex(elm => elm.uid == file.uid || elm.id == file.id);
         if (index > -1) {
-            formData.fileList.splice(index, 1);
+            copy.fileList.splice(index, 1);
+            setJobState(copy);
         }
 
     }
@@ -143,16 +149,31 @@ export default function App() {
         }
     };
 
+    const getJobAdvertisment = async (id) => {
+        var result = await axios.get('jobsAdvertisment/' + id);
+        console.log(result);
+        result.data.tagList=result.data.tagList.map(i => i.id);
+
+  
+
+        setJobState(result.data);
+        
+       
+        form.setFieldsValue(result.data);
+    }
+
     useEffect(() => {
+        getJobAdvertisment(id);
         getTags();
-    }, [])
+    }, [id])
     return (
         <>
-            <h1>Add Job Advertisment</h1>
+            <h1>Edit Job Advertisment</h1>
             <Form
                 name="validate_other"
                 {...formItemLayout}
                 onFinish={onFinish}
+                form={form}
                 initialValues={{
                     'input-number': 3,
                     'checkbox-group': ['A', 'B'],
@@ -170,7 +191,7 @@ export default function App() {
                         },
                     ]}
                 >
-                    <Input name='companyName' onChange={inputChange} />
+                    <Input name='companyName' value={jobState.companyName} onChange={inputChange} />
                 </Form.Item>
 
 
@@ -230,7 +251,7 @@ export default function App() {
 
 
                 <Form.Item
-                    name="select-tag"
+                    name="tagList"
                     label="tags"
                     rules={[
                         {
@@ -257,7 +278,7 @@ export default function App() {
 
 
                 <Form.Item
-                    name="upload"
+                    name="fileList"
                     label="Upload"
                     valuePropName="fileList"
                     getValueFromEvent={normFile}
@@ -273,7 +294,7 @@ export default function App() {
                     </Upload>
                 </Form.Item>
 
-            
+
 
                 <Form.Item
                     wrapperCol={{
