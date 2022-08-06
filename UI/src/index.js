@@ -6,8 +6,12 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import { store } from './Redux/Store';
 import { BrowserRouter } from 'react-router-dom';
+import axios from 'axios';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+axios.defaults.baseURL = 'http://localhost:8081/api/v1';
+
 root.render(
   <Provider store={store}>
     <BrowserRouter>
