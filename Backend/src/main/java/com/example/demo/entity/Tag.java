@@ -1,3 +1,4 @@
+
 package com.example.demo.entity;
 
 import lombok.AllArgsConstructor;
@@ -6,15 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
-
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class JobAdvertisement {
+public class Tag {
 
     @Id
     @SequenceGenerator(
@@ -28,12 +27,7 @@ public class JobAdvertisement {
     )
 
     private Long Id;
-    private String description;
-    private String benefits;
 
-    private String city;
-    private String state;
-    private String companyName;
-    @ManyToMany
-    private List<Tag> tagList;
+    private String tagName;
+
 }
