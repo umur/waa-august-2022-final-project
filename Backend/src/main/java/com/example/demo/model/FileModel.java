@@ -11,4 +11,5 @@ public class FileModel {
 
     private Long Id;
     private String fileCode;
+    private String name;
 }

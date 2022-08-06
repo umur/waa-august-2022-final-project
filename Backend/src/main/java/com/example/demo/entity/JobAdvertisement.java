@@ -36,4 +36,7 @@ public class JobAdvertisement {
     private String companyName;
     @ManyToMany
     private List<Tag> tagList;
+
+    @OneToMany
+    private List<File> fileList;
 }

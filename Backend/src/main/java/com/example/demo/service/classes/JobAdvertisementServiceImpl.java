@@ -43,9 +43,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
         if (dataFromDatabase.isEmpty()) {
             throw new ObjectNotFoundException("User with this id = " + id + " is Not Found!!!");
         }
-        JobAdvertisementModel jobAdvertisementModel = new JobAdvertisementModel();
-        jobAdvertisementModel = Mapper.ConvertJobAdvertisementToModel(dataFromDatabase.get());
-        return jobAdvertisementModel;
+        return modelMapper.map(dataFromDatabase.get(), JobAdvertisementModel.class);
     }
 
     @Override
@@ -64,17 +62,18 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
     @Override
     public void update(JobAdvertisementModel newValueJobAdvertisementModel, long id) {
 
-        JobAdvertisement currentJobAdvertisementValue = jobAdvertisementRepository.findById(id).get();
-        var newJobAdvertisementValue = Mapper.ConvertModelToJobAdvertisement(newValueJobAdvertisementModel);
-        if (currentJobAdvertisementValue.equals(newJobAdvertisementValue)) {
-            throw new ObjectExistException("this Object is already Exist in data base");
-        }
-        if (newJobAdvertisementValue.equals(null)) {
-            throw new EmptyObjectException("this object is Empty");
-        }
-        currentJobAdvertisementValue.setDescription(newJobAdvertisementValue.getDescription());
-        currentJobAdvertisementValue.setBenefits(newJobAdvertisementValue.getBenefits());
-
-        jobAdvertisementRepository.save(currentJobAdvertisementValue);
+        jobAdvertisementRepository.save(modelMapper.map(newValueJobAdvertisementModel,JobAdvertisement.class));
+//        JobAdvertisement currentJobAdvertisementValue = jobAdvertisementRepository.findById(id).get();
+//        var newJobAdvertisementValue = Mapper.ConvertModelToJobAdvertisement(newValueJobAdvertisementModel);
+//        if (currentJobAdvertisementValue.equals(newJobAdvertisementValue)) {
+//            throw new ObjectExistException("this Object is already Exist in data base");
+//        }
+//        if (newJobAdvertisementValue.equals(null)) {
+//            throw new EmptyObjectException("this object is Empty");
+//        }
+//        currentJobAdvertisementValue.setDescription(newJobAdvertisementValue.getDescription());
+//        currentJobAdvertisementValue.setBenefits(newJobAdvertisementValue.getBenefits());
+//
+//        jobAdvertisementRepository.save(currentJobAdvertisementValue);
     }
 }

@@ -37,6 +37,7 @@ public class FileController {
         String filecode = fileService.saveFile(fileName, multipartFile);
         FileModel model = new FileModel();
         model.setFileCode(filecode);
+        model.setName(fileName);
         var savedFile = fileService.create(model);
 
 //        FileUploadResponse response = new FileUploadResponse();

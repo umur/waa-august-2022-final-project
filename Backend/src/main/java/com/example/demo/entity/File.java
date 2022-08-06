@@ -28,4 +28,5 @@ public class File {
 
 
     private String fileCode;
+    private String name;
 }
