@@ -6,6 +6,11 @@ spring:
     console:
       enabled: true
 
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 keycloak:
   realm: WAAProjectRealm
   auth-server-url: http://localhost:8080
