@@ -1,4 +1,5 @@
 
+
 import './App.css';
 import { Button } from 'antd';
 import { Layout } from 'antd';
@@ -9,10 +10,12 @@ import { Route, Routes } from 'react-router';
 import JobAdvertismentAdd from './Content/JobAdvertismentAdd'
 import JobAdvertismentEdit from './Content/JobAdvertismentEdit'
 import JobAdvertismentView from './Content/JobAdvertismentView'
+import SecuredPage from "./pages/Securedpage";
+import PrivateRoute from "./helpers/PrivateRoute";
+
 
 
 const { Header, Footer, Sider, Content } = Layout;
-
 
 const App = () => (
   <>
@@ -22,20 +25,28 @@ const App = () => (
       </Header>
       <Content>
         <Routes>
+
           <Route path='/JobAdd' element={<JobAdvertismentAdd />} />
           <Route path='/JobEdit/:id' element={<JobAdvertismentEdit />} />
           <Route path='/JobView/:id' element={<JobAdvertismentView />} />
 
           <Route path='/' element={<MyContent />} />
+             <Route
+            path="/secured"
+            element={
+              <PrivateRoute>
+                <SecuredPage />
+              </PrivateRoute>
+            }
+          />
+
         </Routes>
       </Content>
       <Footer>Footer</Footer>
+      <PrivateRoute>
+        <SecuredPage />
+      </PrivateRoute>
     </Layout>
-
-
-
-
-
   </>
 );
 export default App;

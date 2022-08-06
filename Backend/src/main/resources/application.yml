@@ -1,7 +1,6 @@
 server:
   port: 8081
 
-
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/waa-final-project
@@ -31,9 +30,6 @@ spring:
   #  h2:
   #    console:
   #      enabled: true
-
-
-
 
 keycloak:
   realm: WAAProjectRealm
