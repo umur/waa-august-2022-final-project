@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
 import { updateUser } from '../Redux/UserSlice'
+import ProfileAdd from "../Content/ProfileAdd";
 
 const PrivateRoute = ({ children }) => {
   const { keycloak } = useKeycloak();
@@ -40,7 +41,7 @@ const PrivateRoute = ({ children }) => {
   }
 
   if (!state) {
-    return <div>complete your profile page</div>;
+    return <ProfileAdd />;
   }
   if (state.notLoaded) {
     return <div/>;

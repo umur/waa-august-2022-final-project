@@ -8,7 +8,6 @@ import { Route, Routes } from "react-router";
 import JobAdvertismentAdd from "./Content/JobAdvertismentAdd";
 import JobAdvertismentEdit from "./Content/JobAdvertismentEdit";
 import JobAdvertismentView from "./Content/JobAdvertismentView";
-import SecuredPage from "./pages/Securedpage";
 import PrivateRoute from "./helpers/PrivateRoute";
 import axios from "axios";
 import { useKeycloak } from "@react-keycloak/web";
