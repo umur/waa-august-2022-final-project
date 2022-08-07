@@ -12,13 +12,17 @@ export default function Header() {
       <div className="navBar">
         <div className="site-button-ghost-wrapper">
           {/* <img src={logo} width='90px' height='40px' alt="logo" /> */}
+          <Button ghost>
+            <Link to="/Dashboard">Dashboard</Link>
+          </Button>
           <Button ghost>Profile</Button>
           <Button ghost>
             <Link to="/JobAdd"> Add Job Advertisment </Link>
           </Button>
           <Button ghost>Student List</Button>
           {!keycloak.authenticated && (
-            <Button ghost
+            <Button
+              ghost
               type="button"
               className="text-blue-800"
               onClick={() => keycloak.login()}
@@ -28,7 +32,8 @@ export default function Header() {
           )}
 
           {!!keycloak.authenticated && (
-            <Button ghost
+            <Button
+              ghost
               type="button"
               className="text-blue-800"
               onClick={() => keycloak.logout()}
