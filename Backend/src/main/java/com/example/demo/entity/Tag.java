@@ -28,6 +28,7 @@ public class Tag {
 
     private Long Id;
 
+    @Column(name = "tag_name")
     private String tagName;
 
 }
