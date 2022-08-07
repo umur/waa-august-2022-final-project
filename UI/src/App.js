@@ -12,41 +12,52 @@ import JobAdvertismentEdit from './Content/JobAdvertismentEdit'
 import JobAdvertismentView from './Content/JobAdvertismentView'
 import SecuredPage from "./pages/Securedpage";
 import PrivateRoute from "./helpers/PrivateRoute";
-
-
+import axios from 'axios';
+import { useKeycloak } from "@react-keycloak/web";
 
 const { Header, Footer, Sider, Content } = Layout;
 
-const App = () => (
-  <>
-    <Layout>
-      <Header>
-        <MyHeader></MyHeader>
-      </Header>
-      <Content>
-        <Routes>
+const App = () => {
+  const { keycloak } = useKeycloak();
+  axios.defaults.baseURL = 'http://localhost:8081/api/v1';
+  console.log(keycloak.token)
+  axios.defaults.headers.common['Authorization'] ='Bearer ' + keycloak.token;
 
-          <Route path='/JobAdd' element={<JobAdvertismentAdd />} />
-          <Route path='/JobEdit/:id' element={<JobAdvertismentEdit />} />
-          <Route path='/JobView/:id' element={<JobAdvertismentView />} />
+  return (
 
-          <Route path='/' element={<MyContent />} />
-             <Route
-            path="/secured"
-            element={
-              <PrivateRoute>
-                <SecuredPage />
-              </PrivateRoute>
-            }
-          />
 
-        </Routes>
-      </Content>
-      <Footer>Footer</Footer>
+    <>
       <PrivateRoute>
-        <SecuredPage />
+      
+      <Layout>
+        <Header>
+          <MyHeader></MyHeader>
+        </Header>
+        <Content>
+          <Routes>
+
+            <Route path='/JobAdd' element={<JobAdvertismentAdd />} />
+            <Route path='/JobEdit/:id' element={<JobAdvertismentEdit />} />
+            <Route path='/JobView/:id' element={<JobAdvertismentView />} />
+
+            <Route path='/' element={<MyContent />} />
+            {/* <Route
+              path="/secured"
+              element={
+                <PrivateRoute>
+                  <SecuredPage />
+                </PrivateRoute>
+              }
+            /> */}
+
+          </Routes>
+        </Content>
+        <Footer>Footer</Footer>
+      
+      </Layout>
       </PrivateRoute>
-    </Layout>
-  </>
-);
+    </>
+
+  )
+};
 export default App;

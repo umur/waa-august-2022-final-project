@@ -17,6 +17,7 @@ import {
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useKeycloak } from "@react-keycloak/web";
 
 const { Option } = Select;
 const formItemLayout = {
@@ -69,24 +70,43 @@ export default function App() {
     const addJob = async () => {
         formData.tagList = formData.tagList.map(d => { return { id: d } });
         console.log(formData);
-        try{
+        try {
             var result = await axios.post('/jobsAdvertisment', formData);
             navigate('/');
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
-    
-       
+
+
     }
     const [tagState, setTagState] = useState([]);
 
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
     };
+    const { keycloak } = useKeycloak();
     const getTags = async () => {
-        var result = await axios.get("/tags");
-        console.log(result);
-        setTagState(result.data);
+        try {
+         debugger
+           var rr= await axios
+            .get("http://localhost:8081/api/v1/tags",{
+              headers: {
+                'Authorization': 'bearer ' + keycloak.token,
+                'Content-Type':'application/json',
+                'Accept':'application/json',
+              }
+            })
+            console.log(rr);
+            var x=axios.defaults.headers;
+            console.log(x)
+            var result = await axios.get("/tags");
+            console.log(result);
+            setTagState(result.data);
+        }
+        catch (err) {
+            console.log(err);
+        }
+
     }
 
     const onChangeFileUpload = (file) => {
@@ -273,7 +293,7 @@ export default function App() {
                     </Upload>
                 </Form.Item>
 
-            
+
 
                 <Form.Item
                     wrapperCol={{
