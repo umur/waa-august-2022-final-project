@@ -12,7 +12,7 @@ public final class Mapper {
         profile.setProfileKClockId(profileModel.getProfileKClockId());
 //        profile.setPassword(profileModel.getPassword());
 //        profile.setEmail(profileModel.getEmail());
-        profile.setProfileType(profileModel.getProfileType());
+     //   profile.setProfileType(profileModel.getProfileType());
         profile.setDeleted(profileModel.isDeleted());
 
         return profile;
@@ -25,7 +25,7 @@ public final class Mapper {
         profileModel.setProfileKClockId(profile.getProfileKClockId());
 //        profileModel.setPassword(profile.getPassword());
 //        profileModel.setEmail(profile.getEmail());
-        profileModel.setProfileType(profile.getProfileType());
+      //  profileModel.setProfileType(profile.getProfileType());
         profileModel.setDeleted(profile.isDeleted());
         return profileModel;
     }
@@ -47,26 +47,26 @@ public final class Mapper {
         return facultyModel;
     }
 
-    public static Student ConvertModelToStudent(StudentModel studentModel){
-        Student student = new Student();
-        student.setGpa(studentModel.getGpa());
-        student.setStudentKClockId(studentModel.getStudentKClockId());
-        student.setProfile(studentModel.getProfile());
-        student.setDepartment(studentModel.getDepartment());
-//        student.setJobHistoryList(studentModel.getJobHistoryList());
-        return student;
-    }
+//    public static Student ConvertModelToStudent(StudentModel studentModel){
+//        Student student = new Student();
+//        student.setGpa(studentModel.getGpa());
+//        student.setStudentKClockId(studentModel.getStudentKClockId());
+//        student.setProfile(studentModel.getProfile());
+//        student.setDepartment(studentModel.getDepartment());
+////        student.setJobHistoryList(studentModel.getJobHistoryList());
+//        return student;
+//    }
 
-    public static StudentModel ConvertStudentToModel(Student student){
-        StudentModel studentModel = new StudentModel();
-        studentModel.setGpa(student.getGpa());
-        studentModel.setStudentKClockId(student.getStudentKClockId());
-        studentModel.setProfile(student.getProfile());
-        studentModel.setDepartment(student.getDepartment());
-//        studentModel.setJobHistoryList(student.getJobHistoryList());
-
-        return studentModel;
-    }
+//    public static StudentModel ConvertStudentToModel(Student student){
+//        StudentModel studentModel = new StudentModel();
+//        studentModel.setGpa(student.getGpa());
+//        studentModel.setStudentKClockId(student.getStudentKClockId());
+//        studentModel.setProfile(student.getProfile());
+//        studentModel.setDepartment(student.getDepartment());
+////        studentModel.setJobHistoryList(student.getJobHistoryList());
+//
+//        return studentModel;
+//    }
 
     public static Department ConvertModelToDepartment(DepartmentModel departmentModel){
         Department department = new Department();

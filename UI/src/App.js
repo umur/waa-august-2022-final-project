@@ -14,6 +14,7 @@ import SecuredPage from "./pages/Securedpage";
 import PrivateRoute from "./helpers/PrivateRoute";
 import axios from 'axios';
 import { useKeycloak } from "@react-keycloak/web";
+import ProfileAdd from './Content/ProfileAdd';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -39,6 +40,7 @@ const App = () => {
             <Route path='/JobAdd' element={<JobAdvertismentAdd />} />
             <Route path='/JobEdit/:id' element={<JobAdvertismentEdit />} />
             <Route path='/JobView/:id' element={<JobAdvertismentView />} />
+            <Route path='/ProfileAdd' element={<ProfileAdd />} />
 
             <Route path='/' element={<MyContent />} />
             {/* <Route

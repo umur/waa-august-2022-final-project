@@ -37,8 +37,8 @@ public class Profile {
     private String lastName;
     private boolean isDeleted;
 
-    @ManyToOne
-    private Department department;
+//    @ManyToOne
+//    private Department department;
 
     private ProfileType profileType;
 }

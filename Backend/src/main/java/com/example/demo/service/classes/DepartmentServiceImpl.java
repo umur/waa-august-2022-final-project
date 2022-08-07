@@ -9,17 +9,20 @@ import com.example.demo.Exception.ObjectExistException;
 import com.example.demo.Exception.ObjectNotFoundException;
 import com.example.demo.model.DepartmentModel;
 import com.example.demo.repository.DepartmentRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentServices {
 
     private final DepartmentRepository departmentRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public void create(DepartmentModel departmentModel) {
@@ -51,8 +54,11 @@ public class DepartmentServiceImpl implements DepartmentServices {
         if(dataFromDatabase.isEmpty()){
             throw new ObjectNotFoundException(" No object To Show !!");
         }
-        dataFromDatabase.forEach(user -> DepartmentModelList.add(Mapper.ConvertDepartmentToModel(user)));
-        return DepartmentModelList;
+
+        return dataFromDatabase
+                .stream()
+                .map(d -> modelMapper.map(d,DepartmentModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override

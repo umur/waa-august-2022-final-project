@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/faculties")
+@CrossOrigin
 public class FacultyController {
 
     private final FacultyService facultyService;
@@ -31,6 +32,7 @@ public class FacultyController {
 
     @PostMapping()
     public void save (@RequestBody FacultyModel facultyModel){
+
         facultyService.create(facultyModel);
     }
 

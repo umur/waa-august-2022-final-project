@@ -27,7 +27,7 @@ public class Faculty {
     private Long id;
     private String facultyKClockId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Profile profile;
 
     @ManyToOne

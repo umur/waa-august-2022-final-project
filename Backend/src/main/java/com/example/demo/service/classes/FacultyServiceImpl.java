@@ -8,6 +8,7 @@ import com.example.demo.entity.Faculty;
 import com.example.demo.service.interfaces.FacultyService;
 import com.example.demo.model.FacultyModel;
 import com.example.demo.repository.FacultyRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,17 @@ import java.util.Optional;
 public class FacultyServiceImpl implements FacultyService {
 
     private final FacultyRepository facultyRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public FacultyServiceImpl(FacultyRepository facultyRepository){
+    public FacultyServiceImpl(FacultyRepository facultyRepository, ModelMapper modelMapper){
         this.facultyRepository = facultyRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
     public void create(FacultyModel facultyModel) {
-        Faculty facultyEntity = new Faculty();
-        facultyEntity = Mapper.ConvertModelToFaculty(facultyModel);
-        facultyRepository.save(facultyEntity);
+        facultyRepository.save(modelMapper.map(facultyModel,Faculty.class));
     }
 
     @Override

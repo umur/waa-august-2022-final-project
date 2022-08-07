@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobHistoryModel {
+    private Long Id;
     private String companyName;
     private LocalDate startDate;
     private LocalDate endDate;
