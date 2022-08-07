@@ -22,7 +22,7 @@ public class DemoApplication {
 		return new ModelMapper();
 	}
 
-
+	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
@@ -31,6 +31,4 @@ public class DemoApplication {
 			}
 		};
 	}
-
-
 }
