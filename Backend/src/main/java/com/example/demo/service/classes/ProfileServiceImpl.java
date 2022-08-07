@@ -47,8 +47,8 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileModel findById(Long id) {
         Optional<Profile> dataFromDatabase = profileRepository.findById(id);
-        if(dataFromDatabase.isEmpty()){
-            throw new ObjectNotFoundException("User with this id = " + id +" is Not Found!!!");
+        if (dataFromDatabase.isEmpty()) {
+            throw new ObjectNotFoundException("User with this id = " + id + " is Not Found!!!");
         }
         ProfileModel profileModel = new ProfileModel();
         profileModel = Mapper.ConvertProfileToModel(dataFromDatabase.get());
@@ -56,10 +56,20 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
+    public ProfileModel findByKeycloakId(String id) {
+        Profile dataFromDatabase = profileRepository.findByProfileKClockId(id);
+        if (dataFromDatabase == null)
+            return null;
+        ProfileModel profileModel = new ProfileModel();
+        profileModel = Mapper.ConvertProfileToModel(dataFromDatabase);
+        return profileModel;
+    }
+
+    @Override
     public List<ProfileModel> findAll() {
         var profileModelList = new ArrayList<ProfileModel>();
         var dataFromDatabase = profileRepository.findAll();
-        if(dataFromDatabase.isEmpty()){
+        if (dataFromDatabase.isEmpty()) {
             throw new ObjectNotFoundException(" No profiles To Show !!");
         }
         dataFromDatabase.forEach(user -> profileModelList.add(Mapper.ConvertProfileToModel(user)));
@@ -70,10 +80,10 @@ public class ProfileServiceImpl implements ProfileService {
     public void update(ProfileModel newValueProfileModel, long id) {
         Profile currentProfileValue = profileRepository.findById(id).get();
         var newProfileValue = Mapper.ConvertModelToProfile(newValueProfileModel);
-        if(currentProfileValue.equals(newProfileValue)){
+        if (currentProfileValue.equals(newProfileValue)) {
             throw new ObjectExistException("this Object is already Exist in data base");
         }
-        if(newProfileValue.equals(null)){
+        if (newProfileValue.equals(null)) {
             throw new EmptyObjectException("this object is Empty");
         }
 
