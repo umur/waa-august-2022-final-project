@@ -13,6 +13,7 @@ import PrivateRoute from "./helpers/PrivateRoute";
 import axios from "axios";
 import { useKeycloak } from "@react-keycloak/web";
 import ViewStudents from "./Content/ViewStudents";
+import ProfileAdd from "./Content/ProfileAdd";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -34,6 +35,7 @@ const App = () => {
               <Route path="/JobAdd" element={<JobAdvertismentAdd />} />
               <Route path="/JobEdit/:id" element={<JobAdvertismentEdit />} />
               <Route path="/JobView/:id" element={<JobAdvertismentView />} />
+              <Route path="/ProfileAdd" element={<ProfileAdd />} />
               <Route path="/ViewStudents" element={<ViewStudents />} />
 
               <Route path="/" element={<MyContent />} />

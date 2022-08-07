@@ -29,5 +29,5 @@ public class Department {
     private String name;
 
     @OneToMany(mappedBy = "department")
-    private List<Profile> profileList;
+    private List<Faculty> profileList;
 }

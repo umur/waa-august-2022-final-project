@@ -92,7 +92,7 @@ public class ProfileServiceImpl implements ProfileService {
         currentProfileValue.setLastName(newProfileValue.getLastName());
 //        currentProfileValue.setPassword(newProfileValue.getPassword());
 //        currentProfileValue.setEmail(newProfileValue.getEmail());
-        currentProfileValue.setProfileType(newProfileValue.getProfileType());
+       // currentProfileValue.setProfileType(newProfileValue.getProfileType());
         currentProfileValue.setDeleted(newProfileValue.isDeleted());
 
         profileRepository.save(currentProfileValue);
