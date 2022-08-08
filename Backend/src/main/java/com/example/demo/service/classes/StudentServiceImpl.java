@@ -44,7 +44,7 @@ public class StudentServiceImpl implements StudentService {
             throw new ObjectNotFoundException("User with this id = " + id + " is Not Found!!!");
         }
 
-        return modelMapper.map(dataFromDatabase, StudentModel.class);
+        return modelMapper.map(dataFromDatabase.get(), StudentModel.class);
     }
 
     @Override

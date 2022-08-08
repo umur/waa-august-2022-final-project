@@ -14,6 +14,7 @@ import { useKeycloak } from "@react-keycloak/web";
 import ViewStudents from "./Content/ViewStudents";
 import ProfileAdd from "./Content/ProfileAdd";
 import FacultyEdit from './Content/FacultyEdit'
+import StudentEdit from './Content/StudentEdit'
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -37,9 +38,9 @@ const App = () => {
               <Route path="/JobView/:id" element={<JobAdvertismentView />} />
               
               <Route path="/ViewStudents" element={<ViewStudents />} />
-
+              <Route path="/StudentEdit/:id" element={<StudentEdit />} />
               <Route path="/ProfileAdd" element={<ProfileAdd />} />
-              
+
               <Route path="/FacultyEdit/:id" element={<FacultyEdit />} />
 
               <Route path="/" element={<MyContent />} />

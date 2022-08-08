@@ -36,7 +36,7 @@ public class Student {
     @JoinColumn(name = "department_id")
     private Department major;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<JobHistory> jobHistoryList;
 
     @OneToMany(cascade = CascadeType.PERSIST)
