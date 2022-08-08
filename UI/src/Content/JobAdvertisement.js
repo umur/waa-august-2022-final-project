@@ -1,5 +1,6 @@
 import { Table, Tag } from "antd";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const columns = [
   {
@@ -20,20 +21,6 @@ const columns = [
         text: "Jim",
         value: "Jim",
       },
-      {
-        text: "Submenu",
-        value: "Submenu",
-        children: [
-          {
-            text: "Green",
-            value: "Green",
-          },
-          {
-            text: "Black",
-            value: "Black",
-          },
-        ],
-      },
     ],
     onFilter: (value, record) => record.companyName.indexOf(value) === 0,
   },
@@ -50,8 +37,8 @@ const columns = [
     dataIndex: "city",
     filters: [
       {
-        text: "London",
-        value: "London",
+        text: "Boston",
+        value: "Boston",
       },
       {
         text: "New York",
@@ -81,12 +68,20 @@ const columns = [
     dataIndex: "tags",
     filters: [
       {
-        text: "loser",
-        value: "loser",
+        text: "Tag 1",
+        value: "Tag 1",
       },
       {
-        text: "nice",
-        value: "nice",
+        text: "Tag 2",
+        value: "Tag 2",
+      },
+      {
+        text: "Tag 3",
+        value: "Tag 3",
+      },
+      {
+        text: "Tag 4",
+        value: "Tag 4",
       },
     ],
     render: (_, { tags }) => (
@@ -106,53 +101,7 @@ const columns = [
         })}
       </>
     ),
-    onFilter: (value, record) => {
-      console.log(record);
-      return record.tags.filter((tag) => tag === value);
-    },
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    id: "1",
-    companyName: "John Brown",
-    description: "jfnajbnsdfajbfjandf",
-    benefits: "wjvwnrjvnjnbjwr",
-    city: "Fairfield",
-    state: "Iowa",
-    tags: ["science", "developer"],
-  },
-  {
-    key: "2",
-    id: "2",
-    companyName: "Jim Green",
-    description: "jfnajbnsdfajbfjandf",
-    benefits: "wjvwnrjvnjnbjwr",
-    city: "Fairfield",
-    state: "Iowa",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "3",
-    id: "3",
-    companyName: "Joe Black",
-    description: "jfnajbnsdfajbfjandf",
-    benefits: "wjvwnrjvnjnbjwr",
-    city: "London",
-    state: "Florida",
-    tags: ["loser"],
-  },
-  {
-    key: "4",
-    id: "4",
-    companyName: "Jim Red",
-    description: "jfnajbnsdfajbfjandf",
-    benefits: "wjvwnrjvnjnbjwr",
-    city: "Harwich",
-    state: "Massachusests",
-    tags: ["cool", "teacher"],
+    onFilter: (value, record) => record.tags.includes(value),
   },
 ];
 
@@ -160,8 +109,42 @@ const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 
-const JobAdvertisment = () => (
-  <Table columns={columns} dataSource={data} onChange={onChange} />
-);
+export default function JobAdvertisment() {
+  const [jobAdvertismentState, setJobAdvertismentState] = useState([]);
 
-export default JobAdvertisment;
+  const fetchJobAdvertisement = async () => {
+    try {
+      const response = await axios.get("/jobsAdvertisment");
+      setJobAdvertismentState(
+        response.data.map((d) => {
+          return {
+            key: d.id,
+            id: d.id,
+            companyName: d.companyName,
+            state: d.state,
+            city: d.city,
+            benefits: d.benefits,
+            description: d.description,
+            tags: d.tagList.map((t) => t.tagName),
+          };
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobAdvertisement();
+  }, [jobAdvertismentState]);
+
+  return (
+    <>
+      <Table
+        columns={columns}
+        dataSource={jobAdvertismentState}
+        onChange={onChange}
+      />
+    </>
+  );
+}
