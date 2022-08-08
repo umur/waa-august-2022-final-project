@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import moment from 'moment'
 import {
     Button,
     Form,
     InputNumber,
+    Upload,
     Input,
     DatePicker,
     Rate,
@@ -25,7 +26,15 @@ const formItemLayout = {
         span: 14,
     },
 };
+const normFile = (e) => {
+    console.log('Upload event:', e);
 
+    if (Array.isArray(e)) {
+        return e;
+    }
+
+    return e?.fileList;
+};
 
 const StudentAdd = () => {
 
@@ -73,13 +82,21 @@ const StudentAdd = () => {
         var result = await axios.get('students/' + id);
 
         var data = result.data;
-        setStudentState(data);
-        
+
+
         data = formatJobHistoryDate(data);
         if (data.major != null) {
             data.major = data.major.id;
         }
+        debugger
 
+
+        if (data.cv != null) {
+            data.fileList = [data.cv]
+        }
+
+
+        setStudentState(data);
         form.setFieldsValue(data);
     }
 
@@ -123,19 +140,71 @@ const StudentAdd = () => {
         };
         return body;
     }
+
+    const addFileReponse = (res) => {
+        var copy = { ...studentState };
+        copy['cv'] = res.data;
+        setStudentState(copy);
+    }
+
+    const fileRemoved = (file) => {
+        var copy = { ...studentState };
+
+        if (copy.cv != null) {
+            copy.cv = null;
+            setStudentState(copy);
+        }
+
+    }
+
+    const uploadImage = async options => {
+        const { onSuccess, onError, file, onProgress } = options;
+
+        const fmData = new FormData();
+        const config = {
+            headers: { "content-type": "multipart/form-data" },
+        };
+        fmData.append("file", file);
+        try {
+            const res = await axios.post(
+                "/files/uploadFile",
+                fmData,
+                config
+            );
+
+            onSuccess("Ok");
+
+            res.data['uid'] = file.uid;
+            addFileReponse(res);
+            console.log("server res: ", res);
+        } catch (err) {
+            console.log("Eroor: ", err);
+            const error = new Error("Some error");
+            onError({ err });
+        }
+    };
     const onSubmit = async (data) => {
         console.log(data);
 
         var body = await buildStudentRequestBody(data);
-        body.id=id;
+        body.id = id;
+
+        body['cv'] = studentState.cv;
+
         console.log(body)
         try {
-            var result = await axios.put('/students/'+id, body);
+            var result = await axios.put('/students/' + id, body);
             navigate('/');
         } catch (err) {
             console.log(err);
         }
     };
+
+
+    const onChangeFileUpload = (file) => {
+        console.log('In Data hook')
+        console.log(file);
+    }
 
 
     return (<>
@@ -281,6 +350,24 @@ const StudentAdd = () => {
                 )}
             </Form.List>
 
+            <Form.Item
+                name="fileList"
+                label="Upload"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+                extra="please select the files you want to upload"
+            >
+                <Upload name="logo"
+                    multiple={false}
+                    maxCount="1"
+
+                    customRequest={uploadImage}
+                    onChange={onChangeFileUpload}
+                    onRemove={fileRemoved}
+                    listType="picture" >
+                    <Button icon={<UploadOutlined />}>Click to upload</Button>
+                </Upload>
+            </Form.Item>
             <Form.Item
                 wrapperCol={{
                     span: 12,

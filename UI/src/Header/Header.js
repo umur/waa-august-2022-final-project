@@ -9,11 +9,11 @@ export default function Header() {
   const user = useSelector((state) => { return state.userReducer.user });
 
   const isFaculty = (user) => {
-    return user.profileType == "FACULTY";
+    return user.profileType === "FACULTY";
   }
 
   const isStudent = (user) => {
-    return user.profileType == "STUDENT";
+    return user.profileType === "STUDENT";
   }
   return (
     <>

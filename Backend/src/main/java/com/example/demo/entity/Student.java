@@ -36,6 +36,9 @@ public class Student {
     @JoinColumn(name = "department_id")
     private Department major;
 
+    @OneToOne
+    private File cv;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<JobHistory> jobHistoryList;
 
