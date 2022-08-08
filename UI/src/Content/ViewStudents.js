@@ -30,6 +30,7 @@ function ViewStudents() {
                 {item.profile.firstname} {item.profile.lastname}
               </td>
               <td>{item.profile.gpa}</td>
+              <td><Button>view profile</Button></td>
             </tr>
           );
         })}
