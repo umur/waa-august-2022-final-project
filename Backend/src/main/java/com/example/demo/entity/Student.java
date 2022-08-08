@@ -39,9 +39,9 @@ public class Student {
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<JobHistory> jobHistoryList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<JobAdvertisement> createdJobs;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<JobAdvertisement> appliedJobs;
 }
