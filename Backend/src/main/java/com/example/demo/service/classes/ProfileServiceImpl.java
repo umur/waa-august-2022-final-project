@@ -9,6 +9,7 @@ import com.example.demo.Exception.ObjectExistException;
 import com.example.demo.Exception.ObjectNotFoundException;
 import com.example.demo.model.ProfileModel;
 import com.example.demo.repository.ProfileRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository profileRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public void create(ProfileModel profileModel) {
@@ -60,9 +62,8 @@ public class ProfileServiceImpl implements ProfileService {
         Profile dataFromDatabase = profileRepository.findByProfileKClockId(id);
         if (dataFromDatabase == null)
             return null;
-        ProfileModel profileModel = new ProfileModel();
-        profileModel = Mapper.ConvertProfileToModel(dataFromDatabase);
-        return profileModel;
+
+        return modelMapper.map(dataFromDatabase,ProfileModel.class);
     }
 
     @Override

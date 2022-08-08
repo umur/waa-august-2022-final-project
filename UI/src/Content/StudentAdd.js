@@ -67,13 +67,15 @@ const StudentAdd = () => {
     }
     const { keycloak } = useKeycloak();
     let navigate = useNavigate();
-    const onSubmit = async (data) => {
-        console.log(data);
-        formData['major'] = { id: data.major }
-        formData['gpa'] = parseInt(data.gpa)
-        formData['comments'] = data.comments
+
+    const buildStudentRequestBody = async (data) => {
+        let body = {};
+
+        body['major'] = { id: data.major }
+        body['gpa'] = parseInt(data.gpa)
+        body['comments'] = data.comments
         if (data.jobHistoryList != null) {
-            formData['jobHistoryList'] = data.jobHistoryList.map(j => {
+            body['jobHistoryList'] = data.jobHistoryList.map(j => {
                 j.endDate = j.endDate.toISOString();
                 j.startDate = j.startDate.toISOString();
                 return j;
@@ -83,31 +85,28 @@ const StudentAdd = () => {
 
         var userInfo = await keycloak.loadUserInfo()
 
-        formData['profile'] = {
+        body['profile'] = {
             profileKClockId: userInfo.sub,
             firstName: userInfo.given_name,
             lastName: userInfo.family_name,
+            profileType:'STUDENT'
         };
-        console.log(formData)
+        return body;
+    }
+    const onSubmit = async (data) => {
+        console.log(data);
+
+        var body = await buildStudentRequestBody(data);
+        console.log(body)
         try {
-            var result = await axios.post('/students', formData);
-            navigate('/');
+            var result = await axios.post('/students', body);
+            navigate(0);
         } catch (err) {
             console.log(err);
         }
     };
 
-    const addStudent = async () => {
-        var jobHistoryList = form.getFieldValue('jobHistoryList')
-        console.log(jobHistoryList)
-        console.log(formData);
-        // try {
-        //     var result = await axios.post('/jobsAdvertisment', formData);
-        //     navigate('/');
-        // } catch (err) {
-        //     console.log(err);
-        // }
-    }
+
     return (<>
         <Form
             name="validate_other"
@@ -132,7 +131,7 @@ const StudentAdd = () => {
                     },
                 ]}
             >
-                <Input type='number' name='companyName' onChange={inputChange} />
+                <Input type='number' name='gpa' onChange={inputChange} />
             </Form.Item>
 
 

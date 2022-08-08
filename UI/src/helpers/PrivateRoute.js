@@ -17,11 +17,7 @@ const PrivateRoute = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8081/identity", {
-        headers: {
-          Authorization: "bearer " + keycloak.token,
-        },
-      })
+      .get("/identity")
       .then((e) => {
         debugger;
         console.log(e);
@@ -29,7 +25,7 @@ const PrivateRoute = ({ children }) => {
       })
       .catch((e) => {
         debugger;
-        console.log("Error: " + e);
+        console.log(+ e);
       });
   }, [children]);
 

@@ -74,13 +74,14 @@ const FacultyAdd = () => {
             profileKClockId:userInfo.sub,
             firstName:userInfo.given_name,
             lastName:userInfo.family_name,
+            profileType:'FACULTY'
         };
 
       
         try {
             console.log(formData);
             var result = await axios.post('/faculties', formData );
-            navigate('/');
+            navigate(0);
         } catch (err) {
             console.log(err);
         }

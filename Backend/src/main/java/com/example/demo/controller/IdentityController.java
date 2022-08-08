@@ -8,6 +8,7 @@ import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,8 @@ import java.security.Principal;
 import java.util.Map;
 
 @RestController
-@RequestMapping("identity")
+@RequestMapping("/api/v1/identity")
+@CrossOrigin
 public class IdentityController {
     @Autowired
     ProfileService profileService;
