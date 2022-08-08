@@ -16,6 +16,9 @@ import ProfileAdd from "./Content/ProfileAdd";
 import FacultyEdit from './Content/FacultyEdit'
 import StudentEdit from './Content/StudentEdit'
 import StudentView from "./Content/StudentView";
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import SocketContext from "./Socket/socket"
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -24,6 +27,11 @@ const App = () => {
   axios.defaults.baseURL = "http://localhost:8081/api/v1";
   console.log(keycloak.token);
   axios.defaults.headers.common["Authorization"] = "Bearer " + keycloak.token;
+
+  const socket = React.useContext(SocketContext);
+  socket.on("getNotification", (data) => {
+    NotificationManager.success('Someone applied to your job', 'Job');;
+  });
 
   return (
     <>
