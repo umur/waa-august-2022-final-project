@@ -36,7 +36,7 @@ const normFile = (e) => {
     return e?.fileList;
 };
 
-const StudentAdd = () => {
+const StudentView = () => {
 
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
@@ -45,6 +45,8 @@ const StudentAdd = () => {
     let { id } = useParams();
 
     const [form] = Form.useForm();
+
+    const isFormDisabled=true;
 
     const departmentChange = (elm) => {
         var copy = { ...studentState };
@@ -200,6 +202,22 @@ const StudentAdd = () => {
         }
     };
 
+    
+    const filePreview=(file) =>{
+        console.log(file);
+        axios({
+            url: 'files/downloadFile/'+file.fileCode, //your url
+            method: 'GET',
+            responseType: 'blob', // important
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', file.name); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        });
+    }
 
     const onChangeFileUpload = (file) => {
         console.log('In Data hook')
@@ -211,8 +229,6 @@ const StudentAdd = () => {
         <Form
             name="validate_other"
             {...formItemLayout}
-            onFinish={(e) => onSubmit(e)}
-
             form={form}
             initialValues={{
                 'input-number': 3,
@@ -231,7 +247,7 @@ const StudentAdd = () => {
                     },
                 ]}
             >
-                <Input type='number' name='gpa' onChange={inputChange} />
+                <Input   disabled={isFormDisabled} type='number' name='gpa' onChange={inputChange} />
             </Form.Item>
 
 
@@ -248,7 +264,7 @@ const StudentAdd = () => {
             //     },
             // ]}
             >
-                <Select onChange={departmentChange} placeholder="Please select major" >
+                <Select disabled={isFormDisabled} onChange={departmentChange} placeholder="Please select major" >
                     {
                         departmentState.map(item => {
                             return <Option key={item.id} value={item.id}>
@@ -284,7 +300,7 @@ const StudentAdd = () => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="companyName" />
+                                    <Input disabled={isFormDisabled} placeholder="companyName" />
                                 </Form.Item>
 
                                 <Form.Item
@@ -297,7 +313,7 @@ const StudentAdd = () => {
                                         },
                                     ]}
                                 >
-                                    <DatePicker placeholder="Start Date" />
+                                    <DatePicker disabled={isFormDisabled} placeholder="Start Date" />
                                 </Form.Item>
 
                                 <Form.Item
@@ -310,7 +326,7 @@ const StudentAdd = () => {
                                         },
                                     ]}
                                 >
-                                    <DatePicker placeholder="End Date" />
+                                    <DatePicker disabled={isFormDisabled} placeholder="End Date" />
                                 </Form.Item>
 
                                 <Form.Item
@@ -323,7 +339,7 @@ const StudentAdd = () => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Reason To Leave" />
+                                    <Input  disabled={isFormDisabled} placeholder="Reason To Leave" />
                                 </Form.Item>
 
                                 <Form.Item
@@ -336,13 +352,13 @@ const StudentAdd = () => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="comments" />
+                                    <Input disabled={isFormDisabled} placeholder="comments" />
                                 </Form.Item>
                                 <MinusCircleOutlined onClick={() => remove(name)} />
                             </Space>
                         ))}
                         <Form.Item>
-                            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                            <Button disabled={isFormDisabled} type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                                 Add Job History
                             </Button>
                         </Form.Item>
@@ -351,6 +367,7 @@ const StudentAdd = () => {
             </Form.List>
 
             <Form.Item
+
                 name="fileList"
                 label="Upload"
                 valuePropName="fileList"
@@ -358,9 +375,10 @@ const StudentAdd = () => {
                 extra="please select the files you want to upload"
             >
                 <Upload name="logo"
+                    disabled={isFormDisabled}
                     multiple={false}
                     maxCount="1"
-
+                    onPreview={filePreview}
                     customRequest={uploadImage}
                     onChange={onChangeFileUpload}
                     onRemove={fileRemoved}
@@ -368,19 +386,10 @@ const StudentAdd = () => {
                     <Button icon={<UploadOutlined />}>Click to upload</Button>
                 </Upload>
             </Form.Item>
-            <Form.Item
-                wrapperCol={{
-                    span: 12,
-                    offset: 6,
-                }}
-            >
-                <Button type="primary" htmlType="submit" >
-                    Submit
-                </Button>
-            </Form.Item>
+
         </Form>
     </>);
 }
 
 
-export default StudentAdd;
+export default StudentView;

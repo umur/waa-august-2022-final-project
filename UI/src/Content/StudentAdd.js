@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import {
     Button,
     Form,
@@ -8,6 +8,7 @@ import {
     DatePicker,
     Rate,
     Row,
+    Upload,
     Space,
     Select
 } from 'antd';
@@ -25,6 +26,15 @@ const formItemLayout = {
     },
 };
 
+const normFile = (e) => {
+    console.log('Upload event:', e);
+
+    if (Array.isArray(e)) {
+        return e;
+    }
+
+    return e?.fileList;
+};
 
 const StudentAdd = () => {
 
@@ -33,7 +43,8 @@ const StudentAdd = () => {
     };
 
     let formData = {
-        major: null
+        major: null,
+        fileList: []
     }
 
     const [form] = Form.useForm();
@@ -89,7 +100,7 @@ const StudentAdd = () => {
             profileKClockId: userInfo.sub,
             firstName: userInfo.given_name,
             lastName: userInfo.family_name,
-            profileType:'STUDENT'
+            profileType: 'STUDENT'
         };
         return body;
     }
@@ -98,6 +109,9 @@ const StudentAdd = () => {
 
         var body = await buildStudentRequestBody(data);
         console.log(body)
+        if (formData.fileList.length > 0) {
+            body['cv'] = formData.fileList[0];
+        }
         try {
             var result = await axios.post('/students', body);
             navigate(0);
@@ -105,6 +119,46 @@ const StudentAdd = () => {
             console.log(err);
         }
     };
+
+    const addFileReponse = (res) => {
+        formData.fileList.push(res.data)
+    }
+
+    const uploadImage = async options => {
+        const { onSuccess, onError, file, onProgress } = options;
+
+        const fmData = new FormData();
+        const config = {
+            headers: { "content-type": "multipart/form-data" },
+        };
+        fmData.append("file", file);
+        try {
+            const res = await axios.post(
+                "/files/uploadFile",
+                fmData,
+                config
+            );
+
+            onSuccess("Ok");
+
+            res.data['uid'] = file.uid;
+            addFileReponse(res);
+            console.log("server res: ", res);
+        } catch (err) {
+            console.log("Eroor: ", err);
+            const error = new Error("Some error");
+            onError({ err });
+        }
+    };
+    const fileRemoved = (file) => {
+
+
+        var index = formData.fileList.findIndex(elm => elm.uid == file.uid);
+        if (index > -1) {
+            formData.fileList.splice(index, 1);
+        }
+
+    }
 
 
     return (<>
@@ -249,6 +303,23 @@ const StudentAdd = () => {
                     </>
                 )}
             </Form.List>
+
+            <Form.Item
+                name="cv"
+                label="Upload"
+                valuePropName="fileList"
+
+                getValueFromEvent={normFile}
+                extra="please select the files you want to upload"
+            >
+                <Upload multiple='false' name="logo"
+                    customRequest={uploadImage}
+                    maxCount="1"
+                    onRemove={fileRemoved}
+                    listType="picture" >
+                    <Button icon={<UploadOutlined />}>Click to upload</Button>
+                </Upload>
+            </Form.Item>
 
             <Form.Item
                 wrapperCol={{

@@ -15,6 +15,7 @@ import ViewStudents from "./Content/ViewStudents";
 import ProfileAdd from "./Content/ProfileAdd";
 import FacultyEdit from './Content/FacultyEdit'
 import StudentEdit from './Content/StudentEdit'
+import StudentView from "./Content/StudentView";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -39,6 +40,7 @@ const App = () => {
               
               <Route path="/ViewStudents" element={<ViewStudents />} />
               <Route path="/StudentEdit/:id" element={<StudentEdit />} />
+              <Route path="/StudentView/:id" element={<StudentView />} />
               <Route path="/ProfileAdd" element={<ProfileAdd />} />
 
               <Route path="/FacultyEdit/:id" element={<FacultyEdit />} />

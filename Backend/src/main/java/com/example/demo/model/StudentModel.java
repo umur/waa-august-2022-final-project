@@ -17,6 +17,7 @@ public class StudentModel {
     private double gpa;
     private ProfileModel profile;
     private DepartmentModel major;
+    private FileModel cv;
     private List<JobHistoryModel> jobHistoryList;
     private List<JobAdvertisementModel> appliedJobs;
     private List<JobAdvertisementModel> createdJobs;
