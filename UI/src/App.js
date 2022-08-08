@@ -58,6 +58,7 @@ const App = () => {
           </Content>
           <Footer>Footer</Footer>
         </Layout>
+        <NotificationContainer/>
       </PrivateRoute>
     </>
   );
