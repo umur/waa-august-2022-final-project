@@ -19,12 +19,10 @@ const PrivateRoute = ({ children }) => {
     axios
       .get("/identity")
       .then((e) => {
-        debugger;
         console.log(e);
         setState(e.data);
       })
       .catch((e) => {
-        debugger;
         console.log(+ e);
       });
   }, [children]);

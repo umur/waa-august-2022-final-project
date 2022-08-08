@@ -45,9 +45,8 @@ public class FacultyServiceImpl implements FacultyService {
         if(dataFromDatabase.isEmpty()){
             throw new ObjectNotFoundException("User with this id = " + id +" is Not Found!!!");
         }
-        FacultyModel facultyModel = new FacultyModel();
-        facultyModel = Mapper.ConvertFacultyToModel(dataFromDatabase.get());
-        return facultyModel;
+
+        return modelMapper.map(dataFromDatabase.get(),FacultyModel.class);
     }
 
     @Override
@@ -64,18 +63,7 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public void update(FacultyModel newValueFacultyModel, long id) {
 
-        Faculty currentFacultyValue = facultyRepository.findById(id).get();
-        var newFacultyValue = Mapper.ConvertModelToFaculty(newValueFacultyModel);
-        if(currentFacultyValue.equals(newFacultyValue)){
-            throw new ObjectExistException("this Object is already Exist in data base");
-        }
-        if(newFacultyValue.equals(null)){
-            throw new EmptyObjectException("this object is Empty");
-        }
-        currentFacultyValue.setFacultyKClockId(newFacultyValue.getFacultyKClockId());
-        currentFacultyValue.setProfile(newFacultyValue.getProfile());
-        currentFacultyValue.setDepartment(newFacultyValue.getDepartment());
-        facultyRepository.save(currentFacultyValue);
+        facultyRepository.save(modelMapper.map(newValueFacultyModel,Faculty.class));
     }
 
 }
