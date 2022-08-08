@@ -1,7 +1,7 @@
 import "./App.css";
 import { Button } from "antd";
 import { Layout } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import MyHeader from "./Header/Header";
 import MyContent from "./Content/Content";
 import { Route, Routes } from "react-router";
@@ -13,12 +13,15 @@ import axios from "axios";
 import { useKeycloak } from "@react-keycloak/web";
 import ViewStudents from "./Content/ViewStudents";
 import ProfileAdd from "./Content/ProfileAdd";
-import FacultyEdit from './Content/FacultyEdit'
-import StudentEdit from './Content/StudentEdit'
+import FacultyEdit from "./Content/FacultyEdit";
+import StudentEdit from "./Content/StudentEdit";
 import StudentView from "./Content/StudentView";
-import 'react-notifications/lib/notifications.css';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
-import SocketContext from "./Socket/socket"
+import "react-notifications/lib/notifications.css";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+import SocketContext from "./Socket/socket";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -29,9 +32,11 @@ const App = () => {
   axios.defaults.headers.common["Authorization"] = "Bearer " + keycloak.token;
 
   const socket = React.useContext(SocketContext);
-  socket.on("getNotification", (data) => {
-    NotificationManager.success('Someone applied to your job', 'Job');;
-  });
+  useEffect(() => {
+    socket.on("getNotification", (data) => {
+      NotificationManager.success("Someone applied to your job", "Job");
+    });
+  }, []);
 
   return (
     <>
@@ -45,7 +50,7 @@ const App = () => {
               <Route path="/JobAdd" element={<JobAdvertismentAdd />} />
               <Route path="/JobEdit/:id" element={<JobAdvertismentEdit />} />
               <Route path="/JobView/:id" element={<JobAdvertismentView />} />
-              
+
               <Route path="/ViewStudents" element={<ViewStudents />} />
               <Route path="/StudentEdit/:id" element={<StudentEdit />} />
               <Route path="/StudentView/:id" element={<StudentView />} />
@@ -58,7 +63,7 @@ const App = () => {
           </Content>
           <Footer>Footer</Footer>
         </Layout>
-        <NotificationContainer/>
+        <NotificationContainer />
       </PrivateRoute>
     </>
   );
