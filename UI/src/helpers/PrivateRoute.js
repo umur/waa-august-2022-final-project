@@ -5,6 +5,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
 import { updateUser } from '../Redux/UserSlice'
 import ProfileAdd from "../Content/ProfileAdd";
+import SocketContext from "../Socket/socket"
 
 const PrivateRoute = ({ children }) => {
   const { keycloak } = useKeycloak();
@@ -12,6 +13,7 @@ const PrivateRoute = ({ children }) => {
 
   const user = useSelector((state) =>{console.log(state); return state.userReducer.user});
   const dispatch = useDispatch();
+  const socket = React.useContext(SocketContext);
 
   const [state = { notLoaded: true }, setState] = useState(null);
 
@@ -42,6 +44,7 @@ const PrivateRoute = ({ children }) => {
   }
 
   dispatch(updateUser(state))
+  socket?.emit("newUser", state.id)
   return children;
 };
 
