@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "antd";
+import { Link } from "react-router-dom";
 
 function ViewStudents() {
   const [state, stateSetter] = useState([]);
@@ -30,7 +31,11 @@ function ViewStudents() {
                 {item.profile.firstname} {item.profile.lastname}
               </td>
               <td>{item.profile.gpa}</td>
-              <td><Button>view profile</Button></td>
+              <td>
+                <Button ghost>
+                  <Link to={"/ViewStudents/" + item.id}> View Profile</Link>
+                </Button>
+              </td>
             </tr>
           );
         })}
