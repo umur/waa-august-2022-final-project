@@ -1,7 +1,11 @@
 package com.example.demo.service.classes;
 
 import com.example.demo.UtilityClasses.Mapper;
+import com.example.demo.entity.JobAdvertisement;
 import com.example.demo.entity.Student;
+import com.example.demo.model.JobAdvertisementModel;
+import com.example.demo.repository.JobAdvertisementRepository;
+import com.example.demo.model.JobAdvertisementModel;
 import com.example.demo.service.interfaces.StudentService;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.Exception.EmptyObjectException;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -24,6 +29,9 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+
+    private final JobAdvertisementRepository jobAdvertisementRepository;
+    
     private final ModelMapper modelMapper;
 
 
@@ -63,6 +71,46 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void update(StudentModel newValueStudentModel, long id) {
         studentRepository.save(modelMapper.map(newValueStudentModel, Student.class));
+    }
+
+    @Override
+    public void applyJob(long jobAdvertisementId, String id) {
+        Student studentApplied = studentRepository.findByProfile_ProfileKClockId(id);
+        if (studentApplied == null){
+            throw new NoSuchElementException("There is no student with id: " + id);
+        }
+        JobAdvertisement advertisement = jobAdvertisementRepository.findById(jobAdvertisementId)
+                .orElseThrow(() -> new NoSuchElementException("No Advertisement with id: " + jobAdvertisementId));
+        List<JobAdvertisement> appliedJobs = studentApplied.getAppliedJobs();
+
+        boolean isJobAlreadyApplied = appliedJobs.stream()
+                .anyMatch(jobAdvertisement -> jobAdvertisement.getId() == advertisement.getId());
+
+        if(isJobAlreadyApplied){
+            return;
+        }
+        appliedJobs.add(advertisement);
+        studentApplied.setAppliedJobs(appliedJobs);
+        studentRepository.save(studentApplied);
+    }
+
+    @Override
+    public List<JobAdvertisementModel> getAppliedJobs(String kCloakId) {
+        Student student = studentRepository.findByProfile_ProfileKClockId(kCloakId);
+        return student.getAppliedJobs()
+                .stream()
+                .map(jobAdvertisement ->
+                        modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobAdvertisementModel> findAppliedJobsById(long id) {
+        List<JobAdvertisement> jobAdvertisements = studentRepository.findAllAppliedJobsById(id);
+
+        return jobAdvertisements.stream()
+                .map(jobAdvertisement -> modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
+                .collect(Collectors.toList());
     }
 
 }

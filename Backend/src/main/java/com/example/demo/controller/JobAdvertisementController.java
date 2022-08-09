@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.TagModel;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.model.JobAdvertisementModel;
 import com.example.demo.service.interfaces.JobAdvertisementService;
@@ -35,8 +36,28 @@ public class JobAdvertisementController {
         jobAdvertisementService.delete(id);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public void update(@RequestBody JobAdvertisementModel jobAdvertisementModel,@PathVariable long id){
         jobAdvertisementService.update(jobAdvertisementModel,id);
+    }
+
+    @GetMapping("/filter-by-state")
+    public List<JobAdvertisementModel> getAllByState(@RequestParam String state) {
+        return jobAdvertisementService.getAllByState(state);
+    }
+
+    @GetMapping("/filter-by-city")
+    public List<JobAdvertisementModel> getAllByCity(@RequestParam String city) {
+        return jobAdvertisementService.getAllByCity(city);
+    }
+
+    @GetMapping("/filter-by-company-name")
+    public List<JobAdvertisementModel> getAllByCompanyName(@RequestParam String companyName) {
+        return jobAdvertisementService.getAllByCompanyName(companyName);
+    }
+
+    @GetMapping("/filter-by-tag")
+    public List<JobAdvertisementModel> getAllByTag(@RequestBody List<TagModel> tagModels){
+        return jobAdvertisementService.getAllByTags(tagModels);
     }
 }

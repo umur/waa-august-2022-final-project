@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.entity.JobAdvertisement;
 import com.example.demo.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findStudentSByProfileFirstName(String firstName);
     List<Student> findStudentSByProfileFirstNameContaining(String name);
     Student findByProfile_ProfileKClockId(String id);
+
+    List<JobAdvertisement> findAllAppliedJobsById(long id);
 }

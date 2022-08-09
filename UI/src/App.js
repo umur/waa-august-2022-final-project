@@ -1,13 +1,25 @@
 import "./App.css";
 import { Button } from "antd";
 import { Layout } from "antd";
+
+import React from "react";
+
 import React, { useEffect } from "react";
+
 import MyHeader from "./Header/Header";
 import MyContent from "./Content/Content";
 import { Route, Routes } from "react-router";
 import JobAdvertismentAdd from "./Content/JobAdvertismentAdd";
 import JobAdvertismentEdit from "./Content/JobAdvertismentEdit";
 import JobAdvertismentView from "./Content/JobAdvertismentView";
+
+import SecuredPage from "./pages/Securedpage";
+import PrivateRoute from "./helpers/PrivateRoute";
+import Dashboard from "./Content/Dashboard";
+
+import axios from "axios";
+import AppliedJobs from "./Content/AppliedJobs";
+
 import PrivateRoute from "./helpers/PrivateRoute";
 import axios from "axios";
 import { useKeycloak } from "@react-keycloak/web";

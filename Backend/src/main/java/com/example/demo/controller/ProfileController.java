@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/profiles")
+@CrossOrigin
 public class ProfileController {
 
     private final ProfileService profileService;

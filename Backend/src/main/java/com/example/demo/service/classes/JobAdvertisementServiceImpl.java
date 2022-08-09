@@ -2,6 +2,8 @@ package com.example.demo.service.classes;
 
 import com.example.demo.UtilityClasses.Mapper;
 import com.example.demo.entity.JobAdvertisement;
+import com.example.demo.entity.Tag;
+import com.example.demo.model.TagModel;
 import com.example.demo.service.interfaces.JobAdvertisementService;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.Exception.EmptyObjectException;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -75,5 +78,55 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
 //        currentJobAdvertisementValue.setBenefits(newJobAdvertisementValue.getBenefits());
 //
 //        jobAdvertisementRepository.save(currentJobAdvertisementValue);
+    }
+
+    @Override
+    public List<JobAdvertisementModel> getAllByState(String state) {
+        List<JobAdvertisement> jobAdvertisements = jobAdvertisementRepository.findAllByState(state);
+        return jobAdvertisements
+                .stream()
+                .map(jobAdvertisement -> modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobAdvertisementModel> getAllByCity(String city) {
+        List<JobAdvertisement> jobAdvertisements = jobAdvertisementRepository.findAllByCity(city);
+        return jobAdvertisements
+                .stream()
+                .map(jobAdvertisement -> modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobAdvertisementModel> getAllByTags(List<TagModel> tags) {
+
+        List<Tag> mappedTags = tags.stream()
+                .map(tagModel -> modelMapper.map(tagModel, Tag.class))
+                .collect(Collectors.toList());
+
+        Stream<JobAdvertisement> filteredJobs = jobAdvertisementRepository.findAll()
+                .stream()
+                .filter(jobAdvertisement -> jobAdvertisement
+                        .getTagList()
+                        .stream()
+                        .anyMatch(tag -> mappedTags
+                                .stream()
+                                .anyMatch(tag1 ->
+                                     tag1.getTagName().equals(tag.getTagName())
+                                )));
+//        List<JobAdvertisement> jobAdvertisements = jobAdvertisementRepository.findAllByTagListContains(tags);
+        return filteredJobs
+                .map(jobAdvertisement -> modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobAdvertisementModel> getAllByCompanyName(String name) {
+        List<JobAdvertisement> jobAdvertisements = jobAdvertisementRepository.findAllByCompanyName(name);
+        return jobAdvertisements
+                .stream()
+                .map(jobAdvertisement -> modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
+                .collect(Collectors.toList());
     }
 }

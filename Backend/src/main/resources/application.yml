@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/waa-final-project
     username: postgres
-    password: P@ssw0rd
+    password: Iloveyoumum_19987166
 
   properties:
     hibernate:
@@ -31,9 +31,9 @@ spring:
   #    console:
   #      enabled: true
 
-keycloak:
-  realm: WAAProjectRealm
-  auth-server-url: http://localhost:8080
-  resource: waa-sso
-  public-client: true
-  bearer-only: true
+#keycloak:
+#  realm: WAAProjectRealm
+#  auth-server-url: http://localhost:8080
+#  resource: waa-sso
+#  public-client: true
+#  bearer-only: true

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.JobAdvertisementModel;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.model.StudentModel;
 import com.example.demo.service.interfaces.StudentService;
@@ -40,5 +41,20 @@ public class StudentController {
     @PutMapping("{id}")
     public void update(@RequestBody StudentModel studentModel,@PathVariable long id){
         studentService.update(studentModel,id);
+    }
+
+    @GetMapping("/applied-jobs/{id}")
+    public List<JobAdvertisementModel> getAllAppliedJobsById(@PathVariable long id) {
+        return studentService.findAppliedJobsById(id);
+    }
+
+    @PostMapping("/{kCloakId}/job-advertisements/{advertisementId}")
+    public void applyJob(@PathVariable long advertisementId, @PathVariable String kCloakId) {
+        studentService.applyJob(advertisementId, kCloakId);
+    }
+
+    @GetMapping("/get-applied-jobs/{kCloakId}")
+    public List<JobAdvertisementModel> getAppliedJob(@PathVariable String kCloakId) {
+        return studentService.getAppliedJobs(kCloakId);
     }
 }

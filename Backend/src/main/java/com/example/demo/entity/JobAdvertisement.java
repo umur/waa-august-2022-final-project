@@ -37,6 +37,6 @@ public class JobAdvertisement {
     @ManyToMany
     private List<Tag> tagList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<File> fileList;
 }

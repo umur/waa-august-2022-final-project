@@ -31,6 +31,11 @@ export default function Header() {
     <>
       <div className="navBar">
         <div className="site-button-ghost-wrapper">
+
+          {/* <img src={logo} width='90px' height='40px' alt="logo" /> */}
+          <Button ghost>
+            <Link to="/Dashboard">Dashboard</Link>
+          </Button>
           {/* Edit Profile Based on the Type */}
           {
             <Button
