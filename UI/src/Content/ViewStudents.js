@@ -33,7 +33,7 @@ function ViewStudents() {
               <td>{item.profile.gpa}</td>
               <td>
                 <Button ghost>
-                  <Link to={"/ViewStudents/" + item.id}> View Profile</Link>
+                  <Link to={"/StudentView/" + item.id}> View Profile</Link>
                 </Button>
               </td>
             </tr>
