@@ -13,6 +13,7 @@ import PrivateRoute from "./helpers/PrivateRoute";
 import Dashboard from "./Content/Dashboard";
 
 import axios from "axios";
+import AppliedJobs from "./Content/AppliedJobs";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/JobEdit/:id" element={<JobAdvertismentEdit />} />
             <Route path="/JobView/:id" element={<JobAdvertismentView />} />
             <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/AppliedJobs" element={<AppliedJobs />} />
             <Route path="/" element={<MyContent />} />
             {/* <Route
               path="/secured"

@@ -15,6 +15,9 @@ export default function Header() {
           <Button ghost>
             <Link to="/Dashboard">Dashboard</Link>
           </Button>
+          <Button ghost>
+            <Link to="/AppliedJobs">AppliedJobs</Link>
+          </Button>
           <Button ghost>Profile</Button>
           <Button ghost>
             <Link to="/JobAdd"> Add Job Advertisment </Link>

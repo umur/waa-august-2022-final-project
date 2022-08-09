@@ -42,6 +42,11 @@ public class StudentController {
         studentService.update(studentModel,id);
     }
 
+    @GetMapping("/applied-jobs/{id}")
+    public List<JobAdvertisementModel> getAllAppliedJobsById(@PathVariable long id) {
+        return studentService.findAppliedJobsById(id);
+    }
+
     @PostMapping("/{kCloakId}/job-advertisements/{advertisementId}")
     public void applyJob(@PathVariable long advertisementId, @PathVariable String kCloakId) {
         studentService.applyJob(advertisementId, kCloakId);

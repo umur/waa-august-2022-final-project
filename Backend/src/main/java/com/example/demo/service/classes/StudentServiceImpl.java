@@ -5,6 +5,7 @@ import com.example.demo.entity.JobAdvertisement;
 import com.example.demo.entity.Student;
 import com.example.demo.model.JobAdvertisementModel;
 import com.example.demo.repository.JobAdvertisementRepository;
+import com.example.demo.model.JobAdvertisementModel;
 import com.example.demo.service.interfaces.StudentService;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.Exception.EmptyObjectException;
@@ -112,6 +113,15 @@ public class StudentServiceImpl implements StudentService {
                 .stream()
                 .map(jobAdvertisement ->
                         modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobAdvertisementModel> findAppliedJobsById(long id) {
+        List<JobAdvertisement> jobAdvertisements = studentRepository.findAllAppliedJobsById(id);
+
+        return jobAdvertisements.stream()
+                .map(jobAdvertisement -> modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
                 .collect(Collectors.toList());
     }
 
