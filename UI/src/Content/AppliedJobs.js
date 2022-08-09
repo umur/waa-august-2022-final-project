@@ -1,7 +1,7 @@
 import { Table, Tag } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import { useSelector } from "react-redux";
 const columns = [
   {
     title: "ID",
@@ -111,10 +111,13 @@ const onChange = (pagination, filters, sorter, extra) => {
 
 export default function AppliedJobs() {
   const [appliedJobState, setAppliedJobState] = useState([]);
-
+  const userState = useSelector((state) => {
+    return state.userReducer;
+  });
   const fetchAppliedJobs = async () => {
     try {
-      const response = await axios.get("/students/applied-jobs/1");
+      debugger
+      const response = await axios.get("/students/get-applied-jobs/" + userState.user.id);
       setAppliedJobState(
         response.data.map((d) => {
           return {
@@ -136,10 +139,14 @@ export default function AppliedJobs() {
 
   useEffect(() => {
     fetchAppliedJobs();
-  }, []);
+  }, [userState.appliedJobs]);
+
 
   return (
     <>
+      <h1>Applied Jobs</h1>
+      buildStudentRequestBody
+     
       <Table
         columns={columns}
         dataSource={appliedJobState}

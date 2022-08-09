@@ -2,9 +2,9 @@ import { useKeycloak } from "@react-keycloak/web";
 import { Button, Table, Tag } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import SocketContext from "../Socket/socket";
-
+import { updateUser,applyJob } from './../Redux/UserSlice'
 const columns = [
   {
     title: "ID",
@@ -123,10 +123,12 @@ export default function JobAdvertisment() {
   });
   const { keycloak } = useKeycloak();
   const socket = React.useContext(SocketContext);
-
+  const dispatch = useDispatch();
   const onApplyClick = async (event, ownerId, advId) => {
-    axios.post(`students/${keycloak.subject}/job-advertisements/${advId}`);
-    debugger;
+
+    
+    dispatch(applyJob({userId:user.id,advI:advId}))
+    //await axios.post(`students/${user.id}/job-advertisements/${advId}`);
     socket.emit("sendNotification", {
       senderName: user.id,
       receiverName: ownerId,
@@ -162,8 +164,9 @@ export default function JobAdvertisment() {
   };
 
   useEffect(() => {
+
     fetchJobAdvertisement();
-  }, []);
+  }, [user]);
 
   return (
     <>

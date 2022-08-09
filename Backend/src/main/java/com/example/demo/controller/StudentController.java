@@ -48,13 +48,13 @@ public class StudentController {
         return studentService.findAppliedJobsById(id);
     }
 
-    @PostMapping("/{kCloakId}/job-advertisements/{advertisementId}")
-    public void applyJob(@PathVariable long advertisementId, @PathVariable String kCloakId) {
-        studentService.applyJob(advertisementId, kCloakId);
+    @PostMapping("/{studentId}/job-advertisements/{advertisementId}")
+    public void applyJob(@PathVariable long advertisementId, @PathVariable Long studentId) {
+        studentService.applyJob(advertisementId, studentId);
     }
 
-    @GetMapping("/get-applied-jobs/{kCloakId}")
-    public List<JobAdvertisementModel> getAppliedJob(@PathVariable String kCloakId) {
-        return studentService.getAppliedJobs(kCloakId);
+    @GetMapping("/get-applied-jobs/{studentId}")
+    public List<JobAdvertisementModel> getAppliedJob(@PathVariable Long studentId) {
+        return studentService.getAppliedJobs(studentId);
     }
 }

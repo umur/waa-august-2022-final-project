@@ -18,7 +18,7 @@ public interface StudentService {
 
     List<JobAdvertisementModel> findAppliedJobsById(long id);
 
-    void applyJob(long jobAdvertisementId, String kCloakId);
+    void applyJob(long jobAdvertisementId, Long studentId);
 
-    List<JobAdvertisementModel> getAppliedJobs(String kCloakId);
+    List<JobAdvertisementModel> getAppliedJobs(Long studentId);
 }

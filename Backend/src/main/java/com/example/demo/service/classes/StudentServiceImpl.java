@@ -74,13 +74,17 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void applyJob(long jobAdvertisementId, String id) {
-        Student studentApplied = studentRepository.findByProfile_ProfileKClockId(id);
-        if (studentApplied == null){
+    public void applyJob(long jobAdvertisementId, Long id) {
+        try {
+
+
+        var student = studentRepository.findById(id);
+        if (student == null){
             throw new NoSuchElementException("There is no student with id: " + id);
         }
         JobAdvertisement advertisement = jobAdvertisementRepository.findById(jobAdvertisementId)
                 .orElseThrow(() -> new NoSuchElementException("No Advertisement with id: " + jobAdvertisementId));
+        var studentApplied=student.get();
         List<JobAdvertisement> appliedJobs = studentApplied.getAppliedJobs();
 
         boolean isJobAlreadyApplied = appliedJobs.stream()
@@ -91,13 +95,19 @@ public class StudentServiceImpl implements StudentService {
         }
         appliedJobs.add(advertisement);
         studentApplied.setAppliedJobs(appliedJobs);
-        studentRepository.save(studentApplied);
+        //studentRepository.save(studentApplied);
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     @Override
-    public List<JobAdvertisementModel> getAppliedJobs(String kCloakId) {
-        Student student = studentRepository.findByProfile_ProfileKClockId(kCloakId);
-        return student.getAppliedJobs()
+    public List<JobAdvertisementModel> getAppliedJobs(Long studentId) {
+        var student = studentRepository.findById(studentId);
+        if(!student.isPresent())
+            return null;
+        return student.get().getAppliedJobs()
                 .stream()
                 .map(jobAdvertisement ->
                         modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
