@@ -27,6 +27,7 @@ import {
   NotificationManager,
 } from "react-notifications";
 import SocketContext from "./Socket/socket";
+import Dashboard from "./Content/Dashboard";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -62,7 +63,7 @@ const App = () => {
               <Route path="/ProfileAdd" element={<ProfileAdd />} />
 
               <Route path="/FacultyEdit/:id" element={<FacultyEdit />} />
-
+              <Route path="/Dashboard" element={<Dashboard/>}/>
               <Route path="/" element={<MyContent />} />
             </Routes>
           </Content>
