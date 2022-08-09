@@ -19,5 +19,5 @@ values ( 1, 'benefits', 'city', 'company', 'description', 'state');
 insert into job_advertisement(id, benefits, city, company_name, description, state)
 values ( 2, 'benefits2', 'city2', 'company2', 'description2', 'state2');
 
-insert into department(id,name) values(3, 'Science');
+
 
