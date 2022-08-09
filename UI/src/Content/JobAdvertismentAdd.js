@@ -42,7 +42,8 @@ const normFile = (e) => {
 
 
 export default function App() {
-
+    const { keycloak } = useKeycloak();
+      
     let navigate = useNavigate();
 
     let formData = {
@@ -71,6 +72,7 @@ export default function App() {
         formData.tagList = formData.tagList.map(d => { return { id: d } });
         console.log(formData);
         try {
+            formData.ownerId = keycloak.subject;
             var result = await axios.post('/jobsAdvertisment', formData);
             navigate('/');
         } catch (err) {
@@ -84,7 +86,6 @@ export default function App() {
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
     };
-    const { keycloak } = useKeycloak();
     const getTags = async () => {
         try {
 

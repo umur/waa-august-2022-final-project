@@ -39,4 +39,7 @@ public class JobAdvertisement {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<File> fileList;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Student student;
 }

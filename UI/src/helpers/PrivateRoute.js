@@ -44,7 +44,7 @@ const PrivateRoute = ({ children }) => {
   }
 
   dispatch(updateUser(state))
-  socket?.emit("newUser", state.id)
+  socket?.emit("newUser", keycloak.subject)
   return children;
 };
 

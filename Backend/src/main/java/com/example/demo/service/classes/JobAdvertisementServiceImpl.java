@@ -4,6 +4,7 @@ import com.example.demo.UtilityClasses.Mapper;
 import com.example.demo.entity.JobAdvertisement;
 import com.example.demo.entity.Tag;
 import com.example.demo.model.TagModel;
+import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.interfaces.JobAdvertisementService;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.Exception.EmptyObjectException;
@@ -27,12 +28,15 @@ import java.util.stream.Stream;
 public class JobAdvertisementServiceImpl implements JobAdvertisementService {
 
     private final JobAdvertisementRepository jobAdvertisementRepository;
+    private final StudentRepository studentRepository;
     private final ModelMapper modelMapper;
 
 
     @Override
     public void create(JobAdvertisementModel jobAdvertisementModel) {
-        jobAdvertisementRepository.save(modelMapper.map(jobAdvertisementModel, JobAdvertisement.class));
+        var mappedModel = modelMapper.map(jobAdvertisementModel, JobAdvertisement.class);
+        mappedModel.setStudent(studentRepository.findByProfile_ProfileKClockId(jobAdvertisementModel.getOwnerId()));
+        jobAdvertisementRepository.save(mappedModel);
     }
 
     @Override
@@ -58,7 +62,12 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
         }
 
         return dataFromDatabase.stream()
-                .map(d -> modelMapper.map(d, JobAdvertisementModel.class))
+                .map(d ->
+                {
+                    var result = modelMapper.map(d, JobAdvertisementModel.class);
+                    result.setOwnerId(d.getStudent().getProfile().getProfileKClockId());
+                    return result;
+                })
                 .collect(Collectors.toList());
     }
 

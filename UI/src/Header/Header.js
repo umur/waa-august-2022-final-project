@@ -31,13 +31,12 @@ export default function Header() {
     <>
       <div className="navBar">
         <div className="site-button-ghost-wrapper">
-
           {/* <img src={logo} width='90px' height='40px' alt="logo" /> */}
           <Button ghost>
             <Link to="/Dashboard">Dashboard</Link>
           </Button>
           {/* Edit Profile Based on the Type */}
-          {
+          {/* {
             <Button
               ghost
               type="button"
@@ -46,7 +45,12 @@ export default function Header() {
             >
               socket test
             </Button>
-          }
+          } */}
+          {isFaculty(user) && (
+            <Button ghost>
+              <Link to={"/ViewStudents"}> View Students</Link>
+            </Button>
+          )}
           {isFaculty(user) && (
             <Button ghost>
               <Link to={"/FacultyEdit/" + user.id}> Edit Profile</Link>

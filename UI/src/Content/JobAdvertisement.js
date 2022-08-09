@@ -2,6 +2,8 @@ import { useKeycloak } from "@react-keycloak/web";
 import { Button, Table, Tag } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import SocketContext from "../Socket/socket";
 
 const columns = [
   {
@@ -107,22 +109,30 @@ const columns = [
   {
     key: "button",
     dataIndex: "button",
-  }
+  },
 ];
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 
-
 export default function JobAdvertisment() {
   const [jobAdvertismentState, setJobAdvertismentState] = useState([]);
+  const user = useSelector((state) => {
+    return state.userReducer.user;
+  });
+  const { keycloak } = useKeycloak();
+  const socket = React.useContext(SocketContext);
 
-  const {keycloak} = useKeycloak();
-
-  const onApplyClick = async (event, advId) => {
-      axios.post(`students/${keycloak.subject}/job-advertisements/${advId}`);
-  }
+  const onApplyClick = async (event, ownerId, advId) => {
+    axios.post(`students/${keycloak.subject}/job-advertisements/${advId}`);
+    debugger;
+    socket.emit("sendNotification", {
+      senderName: user.id,
+      receiverName: ownerId,
+      type: 0,
+    });
+  };
 
   const fetchJobAdvertisement = async () => {
     try {
@@ -138,7 +148,11 @@ export default function JobAdvertisment() {
             benefits: d.benefits,
             description: d.description,
             tags: d.tagList.map((t) => t.tagName),
-            button: <Button onClick={(event) => onApplyClick(event, d.id)}>Apply</Button>
+            button: (
+              <Button onClick={(event) => onApplyClick(event, d.ownerId, d.id)}>
+                Apply
+              </Button>
+            ),
           };
         })
       );

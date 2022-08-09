@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class JobAdvertisementModel {
     private Long Id;
+    private String ownerId;
     private String description;
     private String benefits;
     private String city;
