@@ -16,6 +16,7 @@ import com.example.demo.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,19 +25,19 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
-    private final JobAdvertisementRepository jobAdvertisementRepository;
 
+    private final JobAdvertisementRepository jobAdvertisementRepository;
+    
     private final ModelMapper modelMapper;
 
 
     @Override
     public void create(StudentModel studentModel) {
-        Student studentEntity = new Student();
-        studentEntity = Mapper.ConvertModelToStudent(studentModel);
-        studentRepository.save(studentEntity);
+        studentRepository.save(modelMapper.map(studentModel, Student.class));
     }
 
     @Override
@@ -47,42 +48,29 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentModel findById(Long id) {
         Optional<Student> dataFromDatabase = studentRepository.findById(id);
-        if(dataFromDatabase.isEmpty()){
-            throw new ObjectNotFoundException("User with this id = " + id +" is Not Found!!!");
+        if (dataFromDatabase.isEmpty()) {
+            throw new ObjectNotFoundException("User with this id = " + id + " is Not Found!!!");
         }
-        StudentModel studentModel = new StudentModel();
-        studentModel = Mapper.ConvertStudentToModel(dataFromDatabase.get());
-        return studentModel;
+
+        return modelMapper.map(dataFromDatabase.get(), StudentModel.class);
     }
 
     @Override
     public List<StudentModel> findAll() {
         var studentModelList = new ArrayList<StudentModel>();
         var dataFromDatabase = studentRepository.findAll();
-        if(dataFromDatabase.isEmpty()){
+        if (dataFromDatabase.isEmpty()) {
             throw new ObjectNotFoundException(" No object To Show !!");
         }
-        dataFromDatabase.forEach(user -> studentModelList.add(Mapper.ConvertStudentToModel(user)));
-        return studentModelList;
+
+        return dataFromDatabase
+                .stream().map(s -> modelMapper.map(s, StudentModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void update(StudentModel newValueStudentModel, long id) {
-        Student currentStudentValue = studentRepository.findById(id).get();
-        var newStudentValue = Mapper.ConvertModelToStudent(newValueStudentModel);
-        if(currentStudentValue.equals(newStudentValue)){
-            throw new ObjectExistException("this Object is already Exist in data base");
-        }
-        if(newStudentValue.equals(null)){
-            throw new EmptyObjectException("this object is Empty");
-        }
-        currentStudentValue.setGpa(newStudentValue.getGpa());
-        currentStudentValue.setStudentKClockId(newStudentValue.getStudentKClockId());
-        currentStudentValue.setProfile(newStudentValue.getProfile());
-        currentStudentValue.setDepartment(newStudentValue.getDepartment());
-        currentStudentValue.setJobHistoryList(newStudentValue.getJobHistoryList());
-
-        studentRepository.save(currentStudentValue);
+        studentRepository.save(modelMapper.map(newValueStudentModel, Student.class));
     }
 
     @Override

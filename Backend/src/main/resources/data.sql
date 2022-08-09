@@ -5,6 +5,7 @@ insert into tag(id,tag_name) values(3, 'Tag 3');
 
 insert into department(id,name) values(1, 'IT');
 insert into department(id,name) values(2, 'Business');
+
 insert into department(id,name) values(3, 'Science');
 
 insert into profile(id, first_name, is_deleted, last_name, profile_type, profilekclock_id)
@@ -17,3 +18,6 @@ insert into job_advertisement(id, benefits, city, company_name, description, sta
 values ( 1, 'benefits', 'city', 'company', 'description', 'state');
 insert into job_advertisement(id, benefits, city, company_name, description, state)
 values ( 2, 'benefits2', 'city2', 'company2', 'description2', 'state2');
+
+insert into department(id,name) values(3, 'Science');
+

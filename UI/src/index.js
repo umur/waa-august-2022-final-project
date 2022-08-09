@@ -1,4 +1,3 @@
-
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -9,17 +8,18 @@ import { store } from "./Redux/Store";
 import { BrowserRouter } from "react-router-dom";
 import { ReactKeycloakProvider } from "@react-keycloak/web";
 import keycloak from "./Keycloak";
-import axios from 'axios';
+import SocketContext, { socket } from "./Socket/socket";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-  //axios.defaults.baseURL = 'http://localhost:8081/api/v1';
-
+//axios.defaults.baseURL = 'http://localhost:8081/api/v1';
 
 root.render(
   <Provider store={store}>
     <BrowserRouter>
       <ReactKeycloakProvider authClient={keycloak}>
-        <App />
+        <SocketContext.Provider value={socket}>
+          <App />
+        </SocketContext.Provider>
       </ReactKeycloakProvider>
     </BrowserRouter>
   </Provider>

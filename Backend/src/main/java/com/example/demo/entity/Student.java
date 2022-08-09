@@ -29,19 +29,22 @@ public class Student {
     private String studentKClockId;
     private double gpa;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Profile profile;
 
     @ManyToOne
     @JoinColumn(name = "department_id")
-    private Department department;
+    private Department major;
 
-    @OneToMany
+    @OneToOne
+    private File cv;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<JobHistory> jobHistoryList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<JobAdvertisement> createdJobs;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<JobAdvertisement> appliedJobs;
 }

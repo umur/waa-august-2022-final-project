@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FacultyModel {
 
+    private Long Id;
     private String facultyKClockId;
     private Profile profile;
     private DepartmentModel department;

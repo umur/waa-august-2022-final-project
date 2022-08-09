@@ -29,6 +29,7 @@ public class StudentController {
 
     @PostMapping()
     public void save (@RequestBody StudentModel studentModel){
+
         studentService.create(studentModel);
     }
 

@@ -11,5 +11,6 @@ import java.util.List;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
     List<Profile> findByProfileType(ProfileType profileType);
+    Profile findByProfileKClockId(String id);
 //    Profile findByEmail(String email);
 }

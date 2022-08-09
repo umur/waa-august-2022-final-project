@@ -87,18 +87,7 @@ export default function App() {
     const { keycloak } = useKeycloak();
     const getTags = async () => {
         try {
-         debugger
-           var rr= await axios
-            .get("http://localhost:8081/api/v1/tags",{
-              headers: {
-                'Authorization': 'bearer ' + keycloak.token,
-                'Content-Type':'application/json',
-                'Accept':'application/json',
-              }
-            })
-            console.log(rr);
-            var x=axios.defaults.headers;
-            console.log(x)
+
             var result = await axios.get("/tags");
             console.log(result);
             setTagState(result.data);

@@ -9,6 +9,7 @@ public interface ProfileService {
     void delete(Long id);
 //    ProfileModel findByEmail(String email);
     ProfileModel findById(Long id);
+    ProfileModel findByKeycloakId(String id);
     List<ProfileModel> findAll();
     void update(ProfileModel profileModel, long id);
 }
