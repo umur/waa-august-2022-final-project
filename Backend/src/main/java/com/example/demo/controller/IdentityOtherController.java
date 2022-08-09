@@ -15,6 +15,7 @@
 //
 //@RestController
 //@RequestMapping("users")
+//@CrossOrigin
 //public class IdentityOtherController {
 //    @GetMapping()
 //    public UserInfo getUserInfo() {

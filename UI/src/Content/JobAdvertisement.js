@@ -1,4 +1,5 @@
-import { Table, Tag } from "antd";
+import { useKeycloak } from "@react-keycloak/web";
+import { Button, Table, Tag } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -103,14 +104,25 @@ const columns = [
     ),
     onFilter: (value, record) => record.tags.includes(value),
   },
+  {
+    key: "button",
+    dataIndex: "button",
+  }
 ];
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 
+
 export default function JobAdvertisment() {
   const [jobAdvertismentState, setJobAdvertismentState] = useState([]);
+
+  const {keycloak} = useKeycloak();
+
+  const onApplyClick = async (event, advId) => {
+      axios.post(`students/${keycloak.subject}/job-advertisements/${advId}`);
+  }
 
   const fetchJobAdvertisement = async () => {
     try {
@@ -126,6 +138,7 @@ export default function JobAdvertisment() {
             benefits: d.benefits,
             description: d.description,
             tags: d.tagList.map((t) => t.tagName),
+            button: <Button onClick={(event) => onApplyClick(event, d.id)}>Apply</Button>
           };
         })
       );
@@ -136,7 +149,7 @@ export default function JobAdvertisment() {
 
   useEffect(() => {
     fetchJobAdvertisement();
-  }, [jobAdvertismentState]);
+  }, []);
 
   return (
     <>
