@@ -10,7 +10,6 @@ const initialState = {
 export const applyJob = createAsyncThunk(
     'students/appliedJob',
     async (params) => {
-        
         const response = await axios.post(`students/${params.userId}/job-advertisements/${params.advId}`);
         return response.data;
     }

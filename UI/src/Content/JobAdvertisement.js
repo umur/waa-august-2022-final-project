@@ -2,9 +2,10 @@ import { useKeycloak } from "@react-keycloak/web";
 import { Button, Table, Tag } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import SocketContext from "../Socket/socket";
-import { updateUser,applyJob } from './../Redux/UserSlice'
+import { updateUser, applyJob } from "./../Redux/UserSlice";
 const columns = [
   {
     title: "ID",
@@ -110,6 +111,10 @@ const columns = [
     key: "button",
     dataIndex: "button",
   },
+  {
+    key: "button2",
+    dataIndex: "button2",
+  },
 ];
 
 const onChange = (pagination, filters, sorter, extra) => {
@@ -118,6 +123,7 @@ const onChange = (pagination, filters, sorter, extra) => {
 
 export default function JobAdvertisment() {
   const [jobAdvertismentState, setJobAdvertismentState] = useState([]);
+  let nav = useNavigate();
   const user = useSelector((state) => {
     return state.userReducer.user;
   });
@@ -125,9 +131,7 @@ export default function JobAdvertisment() {
   const socket = React.useContext(SocketContext);
   const dispatch = useDispatch();
   const onApplyClick = async (event, ownerId, advId) => {
-
-    
-    dispatch(applyJob({userId:user.id,advI:advId}))
+    dispatch(applyJob({ userId: user.id, advI: advId }));
     //await axios.post(`students/${user.id}/job-advertisements/${advId}`);
     socket.emit("sendNotification", {
       senderName: user.id,
@@ -135,6 +139,10 @@ export default function JobAdvertisment() {
       type: 0,
     });
   };
+
+  function editJobPost(event, ownerId, advId) {
+    nav("/JobEdit/" + advId);
+  }
 
   const fetchJobAdvertisement = async () => {
     try {
@@ -155,6 +163,11 @@ export default function JobAdvertisment() {
                 Apply
               </Button>
             ),
+            button2: (d.ownerId == user.profileKClockId) && (
+              <Button onClick={(event) => editJobPost(event, d.ownerId, d.id)}>
+                Edit Post
+              </Button>
+            ),
           };
         })
       );
@@ -164,7 +177,6 @@ export default function JobAdvertisment() {
   };
 
   useEffect(() => {
-
     fetchJobAdvertisement();
   }, [user]);
 
