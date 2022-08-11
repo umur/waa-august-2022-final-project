@@ -1,15 +1,15 @@
 package com.example.demo.entity;
 
 import com.example.demo.enums.ProfileType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -39,6 +39,14 @@ public class Profile {
 
 //    @ManyToOne
 //    private Department department;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    private Student student;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    private Faculty faculty;
 
     private ProfileType profileType;
 }

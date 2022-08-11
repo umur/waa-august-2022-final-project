@@ -1,12 +1,12 @@
 package com.example.demo.model;
 
 import com.example.demo.entity.File;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobAdvertisementModel {

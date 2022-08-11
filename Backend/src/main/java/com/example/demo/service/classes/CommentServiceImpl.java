@@ -9,11 +9,13 @@ import com.example.demo.Exception.ObjectExistException;
 import com.example.demo.Exception.ObjectNotFoundException;
 import com.example.demo.model.CommentModel;
 import com.example.demo.repository.CommentRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -21,12 +23,12 @@ import java.util.Optional;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public void create(CommentModel commentModel) {
-        Comment comment = new Comment();
-        comment = Mapper.ConvertModelToComment(commentModel);
-        commentRepository.save(comment);
+
+        commentRepository.save(modelMapper.map(commentModel, Comment.class));
     }
 
     @Override
@@ -37,8 +39,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentModel findById(Long id) {
         Optional<Comment> dataFromDatabase = commentRepository.findById(id);
-        if(dataFromDatabase.isEmpty()){
-            throw new ObjectNotFoundException("User with this id = " + id +" is Not Found!!!");
+        if (dataFromDatabase.isEmpty()) {
+            throw new ObjectNotFoundException("User with this id = " + id + " is Not Found!!!");
         }
         CommentModel commentModel = new CommentModel();
         commentModel = Mapper.ConvertCommentToModel(dataFromDatabase.get());
@@ -49,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentModel> findAll() {
         var commentModelList = new ArrayList<CommentModel>();
         var dataFromDatabase = commentRepository.findAll();
-        if(dataFromDatabase.isEmpty()){
+        if (dataFromDatabase.isEmpty()) {
             throw new ObjectNotFoundException(" No object To Show !!");
         }
         dataFromDatabase.forEach(user -> commentModelList.add(Mapper.ConvertCommentToModel(user)));
@@ -57,13 +59,37 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<CommentModel> findByStudentId(long id) {
+        try {
+
+
+            var result = commentRepository.findByStudent_Id(id);
+            if (result == null || result.isEmpty())
+                return null;
+
+            return result.stream().map(c -> {
+                c.setStudent(null);
+                var faculty=c.getFaculty();
+                faculty.setDepartment(null);
+                c.setFaculty(faculty);
+                return modelMapper.map(c, CommentModel.class);
+            }).collect(Collectors.toList());
+
+        } catch (
+                Exception ex) {
+            throw ex;
+        }
+
+    }
+
+    @Override
     public void update(CommentModel newValueCommentModel, long id) {
         Comment currentCommentValue = commentRepository.findById(id).get();
         var newCommentValue = Mapper.ConvertModelToComment(newValueCommentModel);
-        if(currentCommentValue.equals(newCommentValue)){
+        if (currentCommentValue.equals(newCommentValue)) {
             throw new ObjectExistException("this Object is already Exist in data base");
         }
-        if(newCommentValue.equals(null)){
+        if (newCommentValue.equals(null)) {
             throw new EmptyObjectException("this object is Empty");
         }
         currentCommentValue.setCommentDetails(newCommentValue.getCommentDetails());

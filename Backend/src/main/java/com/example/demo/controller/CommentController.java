@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/comments")
 @RequiredArgsConstructor
+@CrossOrigin
 public class CommentController {
 
     private final CommentService commentService;
@@ -38,4 +39,10 @@ public class CommentController {
     public void update(@RequestBody CommentModel commentModel,@PathVariable long id) {
         commentService.update(commentModel, id);
     }
+
+    @GetMapping("/by-student-id/{id}")
+    public List<CommentModel> getByStudentId(@PathVariable long id){
+        return commentService.findByStudentId(id);
+    }
+
 }

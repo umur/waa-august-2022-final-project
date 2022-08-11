@@ -1,14 +1,12 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -28,10 +26,10 @@ public class Comment {
 
     private String commentDetails;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Faculty faculty;
 
 }

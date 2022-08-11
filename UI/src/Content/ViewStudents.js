@@ -19,18 +19,21 @@ function ViewStudents() {
   return (
     <div>
       <table>
+      <thead>
         <tr>
           <th>name</th>
           <th>gpa</th>
           <th>actions</th>
         </tr>
+        </thead>
+        <tbody>
         {state.map((item) => {
           return (
-            <tr key={item.studentKClockId}>
+            <tr key={item.id}>
               <td>
-                {item.profile.firstname} {item.profile.lastname}
+                {item.profile.firstName} {item.profile.lastName}
               </td>
-              <td>{item.profile.gpa}</td>
+              <td>{item.gpa}</td>
               <td>
                 <Button ghost>
                   <Link to={"/StudentView/" + item.id}> View Profile</Link>
@@ -39,6 +42,7 @@ function ViewStudents() {
             </tr>
           );
         })}
+        </tbody>
       </table>
     </div>
   );

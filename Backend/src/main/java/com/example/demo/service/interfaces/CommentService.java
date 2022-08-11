@@ -10,5 +10,6 @@ public interface CommentService {
     void delete(Long id);
     CommentModel findById(Long id);
     List<CommentModel> findAll();
+    List<CommentModel> findByStudentId(long id);
     void update(CommentModel commentModel, long id);
 }

@@ -50,6 +50,16 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    public FacultyModel findByProfileId(Long id) {
+        Faculty dataFromDatabase = facultyRepository.findByProfile_Id(id);
+        if(dataFromDatabase==null){
+            throw new ObjectNotFoundException("User with this id = " + id +" is Not Found!!!");
+        }
+
+        return modelMapper.map(dataFromDatabase,FacultyModel.class);
+    }
+
+    @Override
     public List<FacultyModel> findAll() {
         var facultyModelList = new ArrayList<FacultyModel>();
         var dataFromDatabase = facultyRepository.findAll();

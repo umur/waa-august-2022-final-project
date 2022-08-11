@@ -13,6 +13,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findStudentSByProfileFirstName(String firstName);
     List<Student> findStudentSByProfileFirstNameContaining(String name);
     Student findByProfile_ProfileKClockId(String id);
+    Student findByProfile_Id(Long id);
 
     List<JobAdvertisement> findAllAppliedJobsById(long id);
 }

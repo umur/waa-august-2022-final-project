@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.UserInfo;
+import com.example.demo.enums.ProfileType;
 import com.example.demo.model.ProfileModel;
+import com.example.demo.service.interfaces.FacultyService;
 import com.example.demo.service.interfaces.ProfileService;
+import com.example.demo.service.interfaces.StudentService;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -22,6 +25,13 @@ import java.util.Map;
 public class IdentityController {
     @Autowired
     ProfileService profileService;
+
+    @Autowired
+    FacultyService facultyService;
+
+    @Autowired
+    StudentService studentService;
+
 
     @GetMapping()
     public ProfileModel getUserInfo() {
@@ -47,7 +57,19 @@ public class IdentityController {
                 dob = String.valueOf(customClaims.get("DOB"));
             }
 
+
             var profile = profileService.findByKeycloakId(userIdByToken);
+            if(profile!=null){
+                if(profile.getProfileType()== ProfileType.FACULTY ){
+                  var facult=  facultyService.findByProfileId(profile.getId());
+                    profile.setId(facult.getId());
+                }
+                else {
+                    var student=  studentService.findByProfileId(profile.getId());
+                    profile.setId(student.getId());
+                }
+            }
+
             return profile;
         }
         return null;

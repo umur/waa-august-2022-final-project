@@ -4,10 +4,12 @@ import moment from 'moment'
 import {
     Button,
     Form,
+    Comment,
     InputNumber,
     Upload,
     Input,
     DatePicker,
+    Tooltip,
     Rate,
     Row,
     Space,
@@ -16,6 +18,7 @@ import {
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 const formItemLayout = {
@@ -42,11 +45,18 @@ const StudentView = () => {
         console.log('Received values of form: ', values);
     };
 
+    const [commentsState, setCommentsState] = useState([]);
+
+
     let { id } = useParams();
+
+    const user = useSelector((state) => {
+        return state.userReducer.user;
+    });
 
     const [form] = Form.useForm();
 
-    const isFormDisabled=true;
+    const isFormDisabled = true;
 
     const departmentChange = (elm) => {
         var copy = { ...studentState };
@@ -102,9 +112,30 @@ const StudentView = () => {
         form.setFieldsValue(data);
     }
 
+    const getComments = async () => {
+        debugger
+        try {
+
+
+            var result = await axios.get('comments/by-student-id/' + id);
+
+            setCommentsState(result.data);
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+    const isFaculty = (user) => {
+        return user.profileType === "FACULTY";
+    };
+
     useEffect(() => {
         getStudent(id);
         getDepartments();
+        if (isFaculty(user)) {
+            getComments();
+        }
+
     }, [id])
 
     const inputChange = (event) => {
@@ -202,11 +233,35 @@ const StudentView = () => {
         }
     };
 
-    
-    const filePreview=(file) =>{
+    const { TextArea } = Input;
+
+
+
+    let commentValue = '';
+
+    const onCommentChange = async (data) => {
+        console.log(data);
+        commentValue = data.target.value;
+    }
+
+    const onCommentSubmit = async (data) => {
+        console.log(data);
+        debugger
+        let body = {
+            commentDetails: commentValue,
+            student: { id: id },
+            faculty: { id: user.id }
+        }
+
+        var result = await axios.post('/comments', body)
+        getComments();
+    }
+
+
+    const filePreview = (file) => {
         console.log(file);
         axios({
-            url: 'files/downloadFile/'+file.fileCode, //your url
+            url: 'files/downloadFile/' + file.fileCode, //your url
             method: 'GET',
             responseType: 'blob', // important
         }).then((response) => {
@@ -247,7 +302,7 @@ const StudentView = () => {
                     },
                 ]}
             >
-                <Input   disabled={isFormDisabled} type='number' name='gpa' onChange={inputChange} />
+                <Input disabled={isFormDisabled} type='number' name='gpa' onChange={inputChange} />
             </Form.Item>
 
 
@@ -339,7 +394,7 @@ const StudentView = () => {
                                         },
                                     ]}
                                 >
-                                    <Input  disabled={isFormDisabled} placeholder="Reason To Leave" />
+                                    <Input disabled={isFormDisabled} placeholder="Reason To Leave" />
                                 </Form.Item>
 
                                 <Form.Item
@@ -387,6 +442,41 @@ const StudentView = () => {
                 </Upload>
             </Form.Item>
 
+        </Form>
+
+        <Form>
+
+            <h1>Comments</h1>
+
+            {commentsState.length > 0 && (
+                commentsState.map(c => {
+                    return (<>
+                        <Form.Item
+                            label={'Faculty ' + c.faculty.profile.firstName}
+
+                        >
+                            <Input disabled={true} value={c.commentDetails} />
+                        </Form.Item>
+                    </>)
+                })
+
+            )
+
+            }
+            {
+                isFaculty(user) > 0 && (
+                    <>
+                        <Form.Item>
+                            <TextArea rows={4} onChange={onCommentChange} />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button htmlType="submit" onClick={onCommentSubmit} type="primary">
+                                Add Comment
+                            </Button>
+                        </Form.Item>
+                    </>
+                )
+            }
         </Form>
     </>);
 }

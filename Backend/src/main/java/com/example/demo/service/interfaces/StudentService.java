@@ -13,6 +13,7 @@ public interface StudentService {
     void create(StudentModel studentModel);
     void delete(Long id);
     StudentModel findById(Long id);
+    StudentModel findByProfileId(Long id);
     List<StudentModel> findAll();
     void update(StudentModel studentModel, long id);
 
