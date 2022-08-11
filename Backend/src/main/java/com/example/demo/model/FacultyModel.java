@@ -1,12 +1,11 @@
 package com.example.demo.model;
 
 import com.example.demo.entity.Profile;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FacultyModel {

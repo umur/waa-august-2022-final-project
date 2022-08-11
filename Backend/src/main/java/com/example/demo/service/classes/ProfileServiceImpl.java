@@ -59,11 +59,17 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileModel findByKeycloakId(String id) {
-        Profile dataFromDatabase = profileRepository.findByProfileKClockId(id);
-        if (dataFromDatabase == null)
-            return null;
+        try {
+            Profile dataFromDatabase = profileRepository.findByProfileKClockId(id);
+            if (dataFromDatabase == null)
+                return null;
 
-        return modelMapper.map(dataFromDatabase,ProfileModel.class);
+            return modelMapper.map(dataFromDatabase, ProfileModel.class);
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+
     }
 
     @Override
@@ -93,7 +99,7 @@ public class ProfileServiceImpl implements ProfileService {
         currentProfileValue.setLastName(newProfileValue.getLastName());
 //        currentProfileValue.setPassword(newProfileValue.getPassword());
 //        currentProfileValue.setEmail(newProfileValue.getEmail());
-       // currentProfileValue.setProfileType(newProfileValue.getProfileType());
+        // currentProfileValue.setProfileType(newProfileValue.getProfileType());
         currentProfileValue.setDeleted(newProfileValue.isDeleted());
 
         profileRepository.save(currentProfileValue);

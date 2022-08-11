@@ -56,6 +56,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public StudentModel findByProfileId(Long id) {
+        var dataFromDatabase = studentRepository.findByProfile_Id(id);
+        if (dataFromDatabase==null) {
+            throw new ObjectNotFoundException("User with this id = " + id + " is Not Found!!!");
+        }
+
+        return modelMapper.map(dataFromDatabase, StudentModel.class);
+    }
+
+    @Override
     public List<StudentModel> findAll() {
         var studentModelList = new ArrayList<StudentModel>();
         var dataFromDatabase = studentRepository.findAll();

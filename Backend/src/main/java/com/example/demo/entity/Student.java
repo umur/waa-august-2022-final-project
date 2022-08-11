@@ -1,15 +1,13 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -30,6 +28,7 @@ public class Student {
     private double gpa;
 
     @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn
     private Profile profile;
 
     @ManyToOne

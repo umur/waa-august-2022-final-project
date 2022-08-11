@@ -8,6 +8,7 @@ public interface FacultyService {
     void create(FacultyModel facultyModel);
     void delete(Long id);
     FacultyModel findById(Long id);
+    FacultyModel findByProfileId(Long id);
     List<FacultyModel> findAll();
     void update(FacultyModel facultyModel, long id);
 }

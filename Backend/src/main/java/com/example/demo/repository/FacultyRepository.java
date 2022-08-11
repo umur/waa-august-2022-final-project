@@ -9,7 +9,9 @@ import java.util.List;
 @Repository
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
+
     List<Faculty> findFacultiesByProfileFirstName(String firstName);
     List<Faculty> findFacultiesByProfileFirstNameContaining(String name);
     Faculty findByProfile_ProfileKClockId(String id);
+    Faculty findByProfile_Id(Long id);
 }
