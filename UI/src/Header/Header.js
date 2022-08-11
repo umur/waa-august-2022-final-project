@@ -6,8 +6,6 @@ import { useKeycloak } from "@react-keycloak/web";
 import { useSelector } from "react-redux";
 import SocketContext from "../Socket/socket";
 export default function Header() {
-  const socket = React.useContext(SocketContext);
-
   const { keycloak, initialized } = useKeycloak();
   const user = useSelector((state) => {
     return state.userReducer.user;
@@ -20,13 +18,7 @@ export default function Header() {
   const isStudent = (user) => {
     return user.profileType === "STUDENT";
   };
-  const socketTest = () => {
-    socket.emit("sendNotification", {
-      senderName: user.id,
-      receiverName: 1,
-      type: 0,
-    });
-  };
+
   return (
     <>
       <div className="navBar">

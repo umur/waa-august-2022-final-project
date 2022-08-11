@@ -12,7 +12,6 @@ import JobAdvertismentAdd from "./Content/JobAdvertismentAdd";
 import JobAdvertismentEdit from "./Content/JobAdvertismentEdit";
 import JobAdvertismentView from "./Content/JobAdvertismentView";
 
-
 import PrivateRoute from "./helpers/PrivateRoute";
 import axios from "axios";
 import { useKeycloak } from "@react-keycloak/web";
@@ -67,7 +66,7 @@ const App = () => {
               <Route path="/" element={<MyContent />} />
             </Routes>
           </Content>
-          <Footer>Footer</Footer>
+          <Footer></Footer>
         </Layout>
         <NotificationContainer />
       </PrivateRoute>
