@@ -134,7 +134,7 @@ export default function JobAdvertisment() {
     dispatch(applyJob({ userId: user.id, advI: advId }));
     //await axios.post(`students/${user.id}/job-advertisements/${advId}`);
     socket.emit("sendNotification", {
-      senderName: user.id,
+      senderName: user.profileKClockId,
       receiverName: ownerId,
       type: 0,
     });
