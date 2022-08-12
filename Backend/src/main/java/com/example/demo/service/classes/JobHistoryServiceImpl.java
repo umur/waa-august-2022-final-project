@@ -9,17 +9,20 @@ import com.example.demo.Exception.ObjectExistException;
 import com.example.demo.Exception.ObjectNotFoundException;
 import com.example.demo.model.JobHistoryModel;
 import com.example.demo.repository.JobHistoryRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class JobHistoryServiceImpl implements JobHistoryService {
 
     private final JobHistoryRepository jobHistoryRepository;
+    private final ModelMapper modelMapper;
 
 
     @Override
@@ -52,8 +55,13 @@ public class JobHistoryServiceImpl implements JobHistoryService {
         if(dataFromDatabase.isEmpty()){
             throw new ObjectNotFoundException(" No object To Show !!");
         }
-        dataFromDatabase.forEach(user -> jobHistoryModelList.add(Mapper.ConvertJobHistoryToModel(user)));
-        return jobHistoryModelList;
+        return dataFromDatabase
+                .stream()
+                .filter(jobHistory -> !jobHistory.isDeleted())
+                .map(jobHistory -> modelMapper.map(jobHistory, JobHistoryModel.class))
+                .collect(Collectors.toList());
+//        dataFromDatabase.forEach(user -> jobHistoryModelList.add(Mapper.ConvertJobHistoryToModel(user)));
+//        return jobHistoryModelList;
     }
 
     @Override

@@ -47,6 +47,7 @@ public class TagServiceImpl implements TagService {
     public List<TagModel> findAll() {
         return tagRepositroy.findAll()
                 .stream()
+                .filter(tag -> !tag.isDeleted())
                 .map( t -> modelMapper.map(t,TagModel.class))
                 .collect(Collectors.toList());
     }

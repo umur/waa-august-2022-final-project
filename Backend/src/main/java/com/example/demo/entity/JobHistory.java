@@ -29,4 +29,5 @@ public class JobHistory {
     private LocalDate endDate;
     private String reasonToLeave;
     private String comments;
+    private boolean isDeleted = false;
 }

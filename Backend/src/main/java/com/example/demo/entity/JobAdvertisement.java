@@ -32,6 +32,8 @@ public class JobAdvertisement {
     private String city;
     private String state;
     private String companyName;
+    private boolean isDeleted = false;
+
     @ManyToMany
     private List<Tag> tagList;
 

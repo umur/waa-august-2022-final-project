@@ -11,4 +11,5 @@ public class UserInfo {
     String userIDByToken;
     String userIDByMapper;
     String dob;
+    private boolean isDeleted = false;
 }

@@ -62,6 +62,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
         }
 
         return dataFromDatabase.stream()
+                .filter(jobAdvertisement -> !jobAdvertisement.isDeleted())
                 .map(d ->
                 {
                     var result = modelMapper.map(d, JobAdvertisementModel.class);

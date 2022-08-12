@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -66,8 +67,13 @@ public class FacultyServiceImpl implements FacultyService {
         if(dataFromDatabase.isEmpty()){
             throw new ObjectNotFoundException(" No object To Show !!");
         }
-        dataFromDatabase.forEach(user -> facultyModelList.add(Mapper.ConvertFacultyToModel(user)));
-        return facultyModelList;
+        return dataFromDatabase
+                .stream()
+                .filter(faculty -> !faculty.isDeleted())
+                .map(faculty -> modelMapper.map(faculty, FacultyModel.class))
+                .collect(Collectors.toList());
+//        dataFromDatabase.forEach(user -> facultyModelList.add(Mapper.ConvertFacultyToModel(user)));
+//        return facultyModelList;
     }
 
     @Override

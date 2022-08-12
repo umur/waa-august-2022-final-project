@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -79,8 +80,13 @@ public class ProfileServiceImpl implements ProfileService {
         if (dataFromDatabase.isEmpty()) {
             throw new ObjectNotFoundException(" No profiles To Show !!");
         }
-        dataFromDatabase.forEach(user -> profileModelList.add(Mapper.ConvertProfileToModel(user)));
-        return profileModelList;
+        return dataFromDatabase
+                .stream()
+                .filter(profile -> !profile.isDeleted())
+                .map(profile -> modelMapper.map(profile, ProfileModel.class))
+                .collect(Collectors.toList());
+//        dataFromDatabase.forEach(user -> profileModelList.add(Mapper.ConvertProfileToModel(user)));
+//        return profileModelList;
     }
 
     @Override

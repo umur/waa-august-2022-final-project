@@ -24,6 +24,7 @@ public class Faculty {
     )
     private Long id;
     private String facultyKClockId;
+    private boolean isDeleted = false;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn

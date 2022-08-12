@@ -74,7 +74,9 @@ public class StudentServiceImpl implements StudentService {
         }
 
         return dataFromDatabase
-                .stream().map(s -> modelMapper.map(s, StudentModel.class))
+                .stream()
+                .filter(student -> !student.isDeleted())
+                .map(s -> modelMapper.map(s, StudentModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -119,6 +121,7 @@ public class StudentServiceImpl implements StudentService {
             return null;
         return student.get().getAppliedJobs()
                 .stream()
+                .filter(jobAdvertisement -> !jobAdvertisement.isDeleted())
                 .map(jobAdvertisement ->
                         modelMapper.map(jobAdvertisement, JobAdvertisementModel.class))
                 .collect(Collectors.toList());

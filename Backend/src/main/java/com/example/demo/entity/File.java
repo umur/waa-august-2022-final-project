@@ -23,7 +23,7 @@ public class File {
             generator = "faculty_sequence"
     )
     private Long id;
-
+    private boolean isDeleted = false;
 
     private String fileCode;
     private String name;

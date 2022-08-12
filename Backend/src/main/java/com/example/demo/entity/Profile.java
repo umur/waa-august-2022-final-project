@@ -35,7 +35,7 @@ public class Profile {
     private String profileKClockId;
     private String firstName;
     private String lastName;
-    private boolean isDeleted;
+    private boolean isDeleted = false;
 
 //    @ManyToOne
 //    private Department department;

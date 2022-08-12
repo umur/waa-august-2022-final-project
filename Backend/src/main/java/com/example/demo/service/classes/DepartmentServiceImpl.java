@@ -57,6 +57,7 @@ public class DepartmentServiceImpl implements DepartmentServices {
 
         return dataFromDatabase
                 .stream()
+                .filter(department -> !department.isDeleted())
                 .map(d -> modelMapper.map(d,DepartmentModel.class))
                 .collect(Collectors.toList());
     }

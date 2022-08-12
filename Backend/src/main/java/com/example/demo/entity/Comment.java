@@ -26,6 +26,8 @@ public class Comment {
 
     private String commentDetails;
 
+    private boolean isDeleted = false;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Student student;
 

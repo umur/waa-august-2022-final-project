@@ -26,6 +26,7 @@ public class Student {
     private Long id;
     private String studentKClockId;
     private double gpa;
+    private boolean isDeleted = false;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn

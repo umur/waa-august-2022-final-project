@@ -25,6 +25,7 @@ public class Department {
     )
     private Long id;
     private String name;
+    private boolean isDeleted = false;
 
     @OneToMany(mappedBy = "department")
     private List<Faculty> profileList;

@@ -25,6 +25,7 @@ public class Tag {
     )
 
     private Long Id;
+    private boolean isDeleted = false;
 
     @Column(name = "tag_name")
     private String tagName;

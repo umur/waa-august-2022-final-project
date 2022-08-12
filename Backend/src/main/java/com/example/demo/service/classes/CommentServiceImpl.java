@@ -54,8 +54,12 @@ public class CommentServiceImpl implements CommentService {
         if (dataFromDatabase.isEmpty()) {
             throw new ObjectNotFoundException(" No object To Show !!");
         }
-        dataFromDatabase.forEach(user -> commentModelList.add(Mapper.ConvertCommentToModel(user)));
-        return commentModelList;
+        return dataFromDatabase.stream()
+                .filter(comment -> !comment.isDeleted())
+                .map(comment -> modelMapper.map(comment, CommentModel.class))
+                .collect(Collectors.toList());
+//        dataFromDatabase.forEach(user -> commentModelList.add(Mapper.ConvertCommentToModel(user)));
+//        return commentModelList;
     }
 
     @Override
@@ -66,6 +70,10 @@ public class CommentServiceImpl implements CommentService {
             var result = commentRepository.findByStudent_Id(id);
             if (result == null || result.isEmpty())
                 return null;
+
+            result = result.stream()
+                    .filter(comment -> !comment.isDeleted())
+                    .collect(Collectors.toList());
 
             return result.stream().map(c -> {
                 c.setStudent(null);
