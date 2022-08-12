@@ -61,9 +61,6 @@ export default function Header() {
             </Button>
           )}
 
-          {/* Only  Faculty can view student list */}
-          {isFaculty(user) && <Button ghost>Student List</Button>}
-
           {!keycloak.authenticated && (
             <Button
               ghost
