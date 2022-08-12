@@ -27,8 +27,10 @@ public class Student {
     private String studentKClockId;
     private double gpa;
     private boolean isDeleted = false;
+    private String city;
+    private String State;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Profile profile;
 

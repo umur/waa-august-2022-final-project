@@ -20,4 +20,6 @@ public class StudentModel {
     private List<JobHistoryModel> jobHistoryList;
     private List<JobAdvertisementModel> appliedJobs;
     private List<JobAdvertisementModel> createdJobs;
+    private String city;
+    private String State;
 }

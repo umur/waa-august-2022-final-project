@@ -37,6 +37,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void create(StudentModel studentModel) {
+
         studentRepository.save(modelMapper.map(studentModel, Student.class));
     }
 
@@ -117,6 +118,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<JobAdvertisementModel> getAppliedJobs(Long studentId) {
         var student = studentRepository.findById(studentId);
+        System.out.println("Student: " + student);
         if(!student.isPresent())
             return null;
         return student.get().getAppliedJobs()
