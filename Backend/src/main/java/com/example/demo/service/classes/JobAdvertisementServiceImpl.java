@@ -58,7 +58,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
         var jobAdvertisementModelList = new ArrayList<JobAdvertisementModel>();
         var dataFromDatabase = jobAdvertisementRepository.findAll();
         if (dataFromDatabase.isEmpty()) {
-            throw new ObjectNotFoundException(" No object To Show !!");
+            return new ArrayList<>();
         }
 
         return dataFromDatabase.stream()
