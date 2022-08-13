@@ -67,7 +67,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
                 {
                     System.out.println("d = " + d);
                     var result = modelMapper.map(d, JobAdvertisementModel.class);
-//                    result.setOwnerId(d.getStudent().getProfile().getProfileKClockId());
+                    result.setOwnerId(d.getStudent().getProfile().getProfileKClockId());
                     return result;
                 })
                 .collect(Collectors.toList());

@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/waa-final-project
     username: postgres
-    password: password
+    password: P@ssw0rd
 
   properties:
     hibernate:

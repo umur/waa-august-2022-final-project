@@ -158,7 +158,7 @@ export default function JobAdvertisment() {
             benefits: d.benefits,
             description: d.description,
             tags: d.tagList.map((t) => t.tagName),
-            button: (
+            button: (d.ownerId != user.profileKClockId) && (
               <Button onClick={(event) => onApplyClick(event, d.ownerId, d.id)}>
                 Apply
               </Button>
