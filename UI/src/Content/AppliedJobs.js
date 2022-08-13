@@ -116,8 +116,9 @@ export default function AppliedJobs() {
   });
   const fetchAppliedJobs = async () => {
     try {
-      debugger
-      const response = await axios.get("/students/get-applied-jobs/" + userState.user.id);
+      const response = await axios.get(
+        "/students/get-applied-jobs/" + userState.user.id
+      );
       setAppliedJobState(
         response.data.map((d) => {
           return {
@@ -140,7 +141,6 @@ export default function AppliedJobs() {
   useEffect(() => {
     fetchAppliedJobs();
   }, [userState.appliedJobs]);
-
 
   return (
     <>

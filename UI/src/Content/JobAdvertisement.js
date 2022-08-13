@@ -131,7 +131,7 @@ export default function JobAdvertisment() {
   const socket = React.useContext(SocketContext);
   const dispatch = useDispatch();
   const onApplyClick = async (event, ownerId, advId) => {
-    dispatch(applyJob({ userId: user.id, advI: advId }));
+    dispatch(applyJob({ userId: user.id, advId: advId }));
     //await axios.post(`students/${user.id}/job-advertisements/${advId}`);
     socket.emit("sendNotification", {
       senderName: user.profileKClockId,
@@ -163,7 +163,7 @@ export default function JobAdvertisment() {
                 Apply
               </Button>
             ),
-            button2: (d.ownerId == user.profileKClockId) && (
+            button2: d.ownerId == user.profileKClockId && (
               <Button onClick={(event) => editJobPost(event, d.ownerId, d.id)}>
                 Edit Post
               </Button>

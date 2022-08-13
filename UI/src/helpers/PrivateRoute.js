@@ -2,16 +2,18 @@ import { useKeycloak } from "@react-keycloak/web";
 import RedirectToLogin from "./../RedirectToLogin";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector, useDispatch } from 'react-redux'
-import { updateUser } from '../Redux/UserSlice'
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser } from "../Redux/UserSlice";
 import ProfileAdd from "../Content/ProfileAdd";
-import SocketContext from "../Socket/socket"
+import SocketContext from "../Socket/socket";
 
 const PrivateRoute = ({ children }) => {
   const { keycloak } = useKeycloak();
   const isLoggedIn = keycloak.authenticated;
 
-  const user = useSelector((state) =>{console.log(state); return state.userReducer.user});
+  const user = useSelector((state) => {
+    return state.userReducer.user;
+  });
   const dispatch = useDispatch();
   const socket = React.useContext(SocketContext);
 
@@ -21,11 +23,10 @@ const PrivateRoute = ({ children }) => {
     axios
       .get("/identity")
       .then((e) => {
-        console.log(e);
         setState(e.data);
       })
       .catch((e) => {
-        console.log(+ e);
+        console.log(e);
       });
   }, [children]);
 
@@ -40,11 +41,11 @@ const PrivateRoute = ({ children }) => {
     return <ProfileAdd />;
   }
   if (state.notLoaded) {
-    return <div/>;
+    return <div />;
   }
 
-  dispatch(updateUser(state))
-  socket?.emit("newUser", keycloak.subject)
+  dispatch(updateUser(state));
+  socket?.emit("newUser", keycloak.subject);
   return children;
 };
 

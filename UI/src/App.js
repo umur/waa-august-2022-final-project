@@ -33,7 +33,6 @@ const { Header, Footer, Sider, Content } = Layout;
 const App = () => {
   const { keycloak } = useKeycloak();
   axios.defaults.baseURL = "http://localhost:8081/api/v1";
-  console.log(keycloak.token);
   axios.defaults.headers.common["Authorization"] = "Bearer " + keycloak.token;
 
   const socket = React.useContext(SocketContext);
@@ -62,7 +61,7 @@ const App = () => {
               <Route path="/ProfileAdd" element={<ProfileAdd />} />
 
               <Route path="/FacultyEdit/:id" element={<FacultyEdit />} />
-              <Route path="/Dashboard" element={<Dashboard/>}/>
+              <Route path="/Dashboard" element={<Dashboard />} />
               <Route path="/" element={<MyContent />} />
             </Routes>
           </Content>
